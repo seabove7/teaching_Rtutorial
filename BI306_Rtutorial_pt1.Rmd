@@ -21,7 +21,7 @@ Quick notes on this document:
 
 * Blue text can be clicked on to access the associated link (for example, you can click [this](https://www.ipcc.ch) to link to the latest IPCC report)
 * Text with grey shaded background represents R objects or commands in line with main text like this: ```2 + 2```
-* Some code chunks are missing code where you can apply what you have learned. Those will have hashed (#) out comments in them with instructions to help you write the appropriate code.
+* Some code chunks are missing code where you can apply what you have learned. Those will have hashed (```#```) out comments in them with instructions to help you write the appropriate code.
 
 
 <br/>
@@ -153,24 +153,61 @@ sepal_length_sum
 
 
 ### **Method 2**: Tidyverse
-The second method we will use will rely on the ```tidyverse``` syntax. This is a really usefuly collection of R packages that are designed for data science and make your code very clean for other people to understand.  
+The second method we will use will rely on  ```tidyverse``` syntax. This is a really useful collection of R packages that are designed for data science and make your code very clean for other people to understand. This method will require a bit more effort up front, but is more flexible than using the ```summarySE()``` function.   
 
 Start by installing and loading the ```tidyverse``` package.
-```{r}
+```{r echo = TRUE, results = 'hide', eval = FALSE}
 
 ## You do this one! How do you install the tidyverse package? Add the code below.
 # install package
-
-# load package
+install.packages("tidyverse")
 
 ```
 
+```{r echo=TRUE, message=FALSE, results=FALSE}
+
+## How do you load the tidyverse package? Add the code below.
+# load package
+library(tidyverse)
+
+```
+
+Once you have ```tidyverse``` installed and loaded, we can build the code to calculate some summary statistics. Just like when we use the function  ```summarySE()```, we need to specify how we want the data to be grouped for calculating the mean and other statistics. Above we grouped by ```Species ``` so we will do that again here with the ```group_by()``` function. In addition to defining the grouping variable, we then need to add a function that we want to apply to the data. For now, we will just calculate the mean ```Sepal.Length``` per ```Species``` like above. To calculate mean in the tidyverse, we use the ```summarise()``` function ([you can read more about it here](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/summarise)). Within the ```summarise()``` function, you can pass a summary function, such as the ```mean``` function, and name that column something (here we are naming it ```mean_SepLength```).   
+
+We will add these functions to our data (```iris```) using the pipe (``` %>%```) operator. This pipe has been defined in the tidyverse to pipe a value forward into a function like below. We can pipe several functions together for our desired outcome, which is why using tidyverse syntax produces fairly clean code.
+
+```{r warning=FALSE}
+
+iris %>% 
+  group_by(Species) %>% 
+  summarise(mean_SepLength = mean(Sepal.Length, na.rm = TRUE))
+
+```
+
+
+
+
+```{r}
+
+#iris %>% 
+#  group_by(Treatment, nutrients, exp) %>% # input your grouping variable (seperate by commas if more than one)
+#  summarise(mean = round(mean(Sample.weight.postburn..g., na.rm = TRUE), 2),
+#            max = round(max(Sample.weight.postburn..g., na.rm = TRUE), 2),
+#            min = round(min(Sample.weight.postburn..g., na.rm = TRUE), 2),
+#            sd = sd(Sample.weight.postburn..g., na.rm = TRUE),
+#            n = n()) %>% 
+#  mutate(se = sd / sqrt(n),
+#         lowerci = mean - qt(1 - (0.05 / 2), n - 1) * se,
+#         upperci = mean + qt(1 - (0.05 / 2), n - 1) * se)
+#
+```
 
 
 <br/>
 
 ## **Helpful resources**
 
+* [R tutorial with links to other tutorials/resources](https://github.com/MoteCHaDlab/IntroGitHubandR/tree/main/R)
 * [R Markdown cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
 * [Data visualization with ggplot2 cheatsheet](https://hbctraining.github.io/Intro-to-R-flipped/cheatsheets/data-visualization-2.1.pdf)
 * [Base R cheat sheet](https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf)
