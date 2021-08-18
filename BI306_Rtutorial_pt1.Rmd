@@ -1,5 +1,5 @@
 ---
-title: '**BI 306 R Tutorial: Part 1**'
+title: 'BI 306 Lab'
 date: "*Fall 2021*"
 output: 
   html_document:
@@ -9,15 +9,28 @@ output:
 
 <br/>
 
-Before you begin, you will need to download the following:   
+# **R Tutorial: Part 1**
+
+<center>
+**Welcome to the first lab for BIology of Global Change! We are going to be doings some analysis and visualization of data collected during labs this semester so we will have a brief 2 lab tutorial in the programming language R. R is quickly becoming one of the most popular tools for data analysis and visualization in a lot of biological and ecological fields. [R is a free programming language](https://www.r-project.org/about.html) that has a lot of powerful tools to help researchers perform tasks from simple summary statistics to complicated ecological modeling and mapping. We will use this as an introduction to using R, but this course is by no means a coding or statistic course. The expectation here is to learn the goals from each tutorial and participate in the labs so that you will be able to use these skill for analyses in this lab.**
+</center>
+
+<br/>
+
+### **Before you begin, you will need to download the following:**
 
 * R software [here](https://archive.linux.duke.edu/cran/) for your computer   
 * RStudio [here](https://www.rstudio.com/products/rstudio/download/#download)   
 
-<br/>
+
+### Hints for starting with R coding
+
+* R is case sensitive so if something is displayed as ```iris``` and you type ```Iris```, R will look for an object named ```Iris``` instead of the desired ```iris```. Be careful with case and general typos because these are some of the most common causes of error messages to start with.
+* **Google is your best friend for figuring out how to do things!** If R produces an error message, you can easily search it and will likely find someone with the same (or similar) error and a solution to fix it. Additionally, it is a great way to figure out how to do specific tasks in R. If you ask any seasoned programmer, they will happily tell you how their productivity is generally hindered without internet because everyone hits problems they need to Google!
+* **Keep your head up and keep trying!** This is not something that you will learn overnight so keep plugging away and keep trying. Work with your classmates who may already have stats or programming experience who may be able to help you. If you are still stuck, reach out to your TA/TF or instructor for help. We are all happy to help support you.
 
 
-Quick notes on this document:
+### Quick notes on this document:
 
 * Blue text can be clicked on to access the associated link (for example, you can click [this](https://www.ipcc.ch) to link to the latest IPCC report)
 * Text with grey shaded background represents R objects or commands in line with main text like this: ```2 + 2```
@@ -25,6 +38,14 @@ Quick notes on this document:
 
 
 <br/>
+
+## **Goals for this tutorial**
+
+* Install R and R studio
+* View the structure of data sets
+* Perform basic summary statistics on data (```summarySE()``` and ```tidyverse```)
+* Create basic figures of data (line graph, bar chart, scatter plot)
+* Perform a simple linear regression on data
 
 
 ## **Getting started with R**
@@ -46,7 +67,7 @@ head(iris)
 
 ```
 
-The ```head()``` function will display the top six rows of data (you can modify this to show, for example, the top 3 rows like this ```head(iris, 3) ```). This is a nice way to get a sense of what your data look like. We can now see that the ```iris``` dataset contains four columns containing data for sepal length, sepal width, petal length, petal width, and species. These columns contain different types of data that we can understand a bit better by using the ```str()``` function to view the *structure* of the data.
+The ```head()``` function will display the top six rows of data (you can modify this to show, for example, the top 3 rows like this ```head(iris, 3) ```). This is a nice way to get a sense of what your data look like. We can now see that the ```iris``` data set contains four columns containing data for sepal length, sepal width, petal length, petal width, and species. These columns contain different types of data that we can understand a bit better by using the ```str()``` function to view the *structure* of the data.
 
 ```{r}
 
@@ -54,7 +75,30 @@ str(iris)
 
 ```
 
-From this function, we can now see that the ```iris``` dataset is a ```data.frame``` object, it contains 150 observations (or rows of data), and 5 variables (columns). Additionally, the function displays the type of data in each column (identified after the ```$```) and first few observations. We see that the first four columns all contain numeric (```num```) values while the last column (```Species```) contains factors with three different levels (these levels are the different types of species within that column).
+From this function, we can now see that the ```iris``` data set is a ```data.frame``` object, it contains 150 observations (or rows of data), and 5 variables (columns). Additionally, the function displays the type of data in each column (identified after the ```$```) and first few observations. We see that the first four columns all contain numeric (```num```) values while the last column (```Species```) contains factors with three different levels (these levels are the different types of species within that column).
+
+
+In this document, we are only displaying the first few lines of the data for simplicity, however, there are many situations in which we may want to view the entire data set in the R console. The easiest way to do that in the console is just to type the name of your data frame in the console and press enter/return. So if we wanted to view the full ```iris``` data frame, we would simply type that into the console and press enter/return. Alternatively, you can type it into the R Markdown script and press command/control and return/enter at the same time and the data will be printed in the console.
+
+**Try doing this below:**
+
+```{r}
+
+## Type the name of the data frame below and have it run to print
+## the full data frame in the console window:
+
+
+```
+
+Another option for viewing the data frame is through the function ```View()``` and this option is a bit more interactive and really helpful for organizing columns by values to explore the data a bit more. By typing the data frame name we wish to view within the parentheses of this function, R will open a tab beside this current R markdown script with the data frame name. The tab will display the data frame and from this tab we are able to scroll through all the rows of data or even click on a column name to order the rows by that column from lowest to highest or highest to lowest. While this is a helpful function while working on data in R, it will not print in the R markdown. If we want to print an entire data frame in the R markdown output, we should use the above method instead of ```View()```.
+
+**Give this a try:**
+
+```{r echo = TRUE, results = 'hide', eval = FALSE}
+
+## Use the View() function on the iris data
+
+```
 
 <br/>
 
@@ -172,20 +216,37 @@ library(tidyverse)
 
 ```
 
-Once you have ```tidyverse``` installed and loaded, we can build the code to calculate some summary statistics. Just like when we use the function  ```summarySE()```, we need to specify how we want the data to be grouped for calculating the mean and other statistics. Above we grouped by ```Species ``` so we will do that again here with the ```group_by()``` function. In addition to defining the grouping variable, we then need to add a function that we want to apply to the data. For now, we will just calculate the mean ```Sepal.Length``` per ```Species``` like above. To calculate mean in the tidyverse, we use the ```summarise()``` function ([you can read more about it here](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/summarise)). Within the ```summarise()``` function, you can pass a summary function, such as the ```mean``` function, and name that column something (here we are naming it ```mean_SepLength```).   
+Once you have ```tidyverse``` installed and loaded, we can build the code to calculate some summary statistics. Just like when we use the function  ```summarySE()```, we need to specify how we want the data to be grouped for calculating the mean and other statistics. Above we grouped by ```Species ``` so we will do that again here with the ```group_by()``` function.
+
+In addition to defining the grouping variable, we then need to add a function that we want to apply to the data. For now, we will just calculate the mean ```Sepal.Length``` per ```Species``` like above. To calculate mean in the tidyverse, we use the ```summarise()``` function ([you can read more about it here](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/summarise)). Within the ```summarise()``` function, you can pass a summary function, such as the ```mean``` function, and name that column something (here we are naming it ```mean_Sepal.Length```).  
 
 We will add these functions to our data (```iris```) using the pipe (``` %>%```) operator. This pipe has been defined in the tidyverse to pipe a value forward into a function like below. We can pipe several functions together for our desired outcome, which is why using tidyverse syntax produces fairly clean code.
 
-```{r warning=FALSE}
+```{r message=FALSE}
 
 iris %>% 
   group_by(Species) %>% 
-  summarise(mean_SepLength = mean(Sepal.Length, na.rm = TRUE))
+  summarise(mean_Sepal.Length = mean(Sepal.Length))
 
 ```
 
+We now see the mean ```Sepal.Length``` per ```Species``` has been calculated. We can compare this to the mean calculated above using ```summarySE()``` and they result in the same values with slightly different significant digits. One thing to note about using ```tidyverse``` is that it will generally convert ```data.frame``` objects to ```tibble``` format, which is just a 'lazy' type of data frame that can be faster to process, but you can [read more about that here if you are interested](https://tibble.tidyverse.org). Just know that ```tidyverse``` will convert to a ```tibble``` and that may impact some functionality of your new data structure in some situations. Here, this will not be a problem so we will move forward.
 
+Now that we have calculated the mean ```Sepal.Length``` per ```Species```, we want to also add the sample size (```N```) and standard deviation (```sd```) to our function. We will add the standard deviation calculation to the code by adding the ```sd()``` function within the ```summarise()``` function, similar to the ```mean()``` function. Next, we will add the sample size with the function ```n()``` again within ```summarise()```. See that within the ```summarise()``` function that the other functions are separated by by ```,```. If you do not include those commas, the code will result in an error.
 
+```{r message=FALSE}
+
+iris %>% 
+  group_by(Species) %>%
+  summarise(mean_Sepal.Length = mean(Sepal.Length),
+            sd_Sepal.Length = sd(Sepal.Length),
+            N = n())
+
+```
+
+Again, this will now produce the same values as the ```summarySE()``` function used above with slightly different significant figures.
+
+The ```summarise()```
 
 ```{r}
 
@@ -213,4 +274,6 @@ iris %>%
 * [Base R cheat sheet](https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf)
 * [A bunch of R cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
 
+
+## **Still stuck? Reach out to your TA/TF or attend an R help session held throughout the semester!**
 
