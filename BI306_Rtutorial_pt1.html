@@ -561,6 +561,25 @@ summary {
 <div id="simply-summary-statistics" class="section level2">
 <h2><strong>Simply summary statistics</strong></h2>
 <p>Once you know what the structure <code>str()</code> of your data looks like, it is also good to look at some basic summary statistics. There are many different ways to calculate summary statistics in R, but here we will explore two different methods using different R packages.</p>
+<p>In this course, you will be expected to be able to calculate, interpret, and report the following summary statistics:</p>
+<ul>
+<li><strong>Sample size</strong> (<span class="math inline">\(N\)</span>): number of observations/individuals included in a study</li>
+<li><strong>Mean</strong> (<span class="math inline">\(\overline{X}\)</span>): the sum (<span class="math inline">\(\Sigma_{x}\)</span>) of the values divided by the number of values (<span class="math inline">\(N\)</span>)</li>
+</ul>
+<p><span class="math display">\[\overline{X} = \frac{\Sigma_{x}}{N}\]</span></p>
+<ul>
+<li><strong>Standard deviation</strong> (SD; <span class="math inline">\(\sigma\)</span>): measures the dispersion of a dataset relative to its mean (<span class="math inline">\(\overline{X}\)</span>)</li>
+</ul>
+<p><span class="math display">\[ \sigma = \sqrt{\frac{\Sigma(X - \overline{X})^2}{N - 1}}\]</span></p>
+<ul>
+<li><strong>Standard error</strong> (<span class="math inline">\(SE\)</span>): measured how much discrepancy there is likely to be in a sample’s mean compared to the population mean (<span class="math inline">\(\overline{X}\)</span>). Standard error (<span class="math inline">\(SE\)</span>) builds off the standard deviation (<span class="math inline">\(\sigma\)</span>).</li>
+</ul>
+<p><span class="math display">\[SE = \frac{\sigma}{\sqrt{N}}\]</span></p>
+<ul>
+<li><strong>R<sup>2</sup></strong> : <em>coefficient of determination</em>; the proportion of the variation in the dependent variable that is predictable from the independent variable(s). The closer R<sup>2</sup> is to 1, the more strongly related two variables are.</li>
+</ul>
+<p><span class="math display">\[ R^2 = 1 - \frac{\Sigma()^2}{}\]</span></p>
+<p><br /></p>
 <div id="method-1-summaryse" class="section level3">
 <h3><strong>Method 1</strong>: summarySE()</h3>
 <p>The first method will use the function <code>summarySE()</code> within the R package <code>Rmisc</code> installed and loaded above. This function can calculate the sample size, mean, standard deviation, standard error, and confidence intervals for your data (you can read details on the function <a href="https://www.rdocumentation.org/packages/Rmisc/versions/1.5/topics/summarySE">here</a>).</p>
@@ -659,18 +678,24 @@ summary {
 ## 2 versicolor              5.94           0.516    50
 ## 3 virginica               6.59           0.636    50</code></pre>
 <p>Again, this will now produce the same values as the <code>summarySE()</code> function used above with slightly different significant figures.</p>
-<p>The <code>summarise()</code></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co">#iris %&gt;% </span></span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="co">#  group_by(Treatment, nutrients, exp) %&gt;% # input your grouping variable (seperate by commas if more than one)</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="co">#  summarise(mean = round(mean(Sample.weight.postburn..g., na.rm = TRUE), 2),</span></span>
-<span id="cb23-4"><a href="#cb23-4"></a><span class="co">#            max = round(max(Sample.weight.postburn..g., na.rm = TRUE), 2),</span></span>
-<span id="cb23-5"><a href="#cb23-5"></a><span class="co">#            min = round(min(Sample.weight.postburn..g., na.rm = TRUE), 2),</span></span>
-<span id="cb23-6"><a href="#cb23-6"></a><span class="co">#            sd = sd(Sample.weight.postburn..g., na.rm = TRUE),</span></span>
-<span id="cb23-7"><a href="#cb23-7"></a><span class="co">#            n = n()) %&gt;% </span></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="co">#  mutate(se = sd / sqrt(n),</span></span>
-<span id="cb23-9"><a href="#cb23-9"></a><span class="co">#         lowerci = mean - qt(1 - (0.05 / 2), n - 1) * se,</span></span>
-<span id="cb23-10"><a href="#cb23-10"></a><span class="co">#         upperci = mean + qt(1 - (0.05 / 2), n - 1) * se)</span></span>
-<span id="cb23-11"><a href="#cb23-11"></a><span class="co">#</span></span></code></pre></div>
+<p>The <code>summarise()</code> function we are using here is really powerful for these summary data (mean, sample size, mean, etc.), however, for some summary statistics we will need to perform small calculations. For example, if we want to calculate the standard error of the mean, we will need to use the sample size (<code>N</code>) and standard deviation (<code>sd_Sepal.Length</code>).</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),</span>
+<span id="cb23-4"><a href="#cb23-4"></a>            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),</span>
+<span id="cb23-5"><a href="#cb23-5"></a>            <span class="dt">N =</span> <span class="kw">n</span>(),</span>
+<span id="cb23-6"><a href="#cb23-6"></a>            <span class="dt">se_Sepal.Length =</span> sd_Sepal.Length <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(N))</span></code></pre></div>
+<pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<pre><code>## # A tibble: 3 x 5
+##   Species    mean_Sepal.Length sd_Sepal.Length     N se_Sepal.Length
+##   &lt;fct&gt;                  &lt;dbl&gt;           &lt;dbl&gt; &lt;int&gt;           &lt;dbl&gt;
+## 1 setosa                  5.01           0.352    50          0.0498
+## 2 versicolor              5.94           0.516    50          0.0730
+## 3 virginica               6.59           0.636    50          0.0899</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co">#  mutate(se = sd / sqrt(n),</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="co">#         lowerci = mean - qt(1 - (0.05 / 2), n - 1) * se,</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="co">#         upperci = mean + qt(1 - (0.05 / 2), n - 1) * se)</span></span>
+<span id="cb26-4"><a href="#cb26-4"></a><span class="co">#</span></span></code></pre></div>
 <p><br /></p>
 </div>
 </div>

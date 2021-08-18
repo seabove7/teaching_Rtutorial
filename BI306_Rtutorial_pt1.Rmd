@@ -138,6 +138,29 @@ help(package = "Rmisc")
 
 Once you know what the structure ```str()``` of your data looks like, it is also good to look at some basic summary statistics. There are many different ways to calculate summary statistics in R, but here we will explore two different methods using different R packages.
 
+In this course, you will be expected to be able to calculate, interpret, and report the following summary statistics:
+
+* **Sample size** ($N$): number of observations/individuals included in a study
+* **Mean** ($\overline{X}$): the sum ($\Sigma_{x}$) of the values divided by the number of values ($N$)
+
+$$\overline{X} = \frac{\Sigma_{x}}{N}$$
+
+* **Standard deviation** (SD; $\sigma$): measures the dispersion of a dataset relative to its mean ($\overline{X}$)
+
+$$ \sigma = \sqrt{\frac{\Sigma(X - \overline{X})^2}{N - 1}}$$ 
+
+* **Standard error** ($SE$): measured how much discrepancy there is likely to be in a sample's mean compared to the population mean ($\overline{X}$). Standard error ($SE$) builds off the standard deviation ($\sigma$).
+
+$$SE = \frac{\sigma}{\sqrt{N}}$$
+
+* **R^2^** : *coefficient of determination*; the proportion of the variation in the dependent variable that is predictable from the independent variable(s). The closer R^2^ is to 1, the more strongly related two variables are.
+
+$$ R^2 = 1 - \frac{\Sigma()^2}{}$$
+
+
+<br/>
+
+
 ### **Method 1**: summarySE()
 The first method will use the function ```summarySE()``` within the R package ```Rmisc``` installed and loaded above. This function can calculate the sample size, mean, standard deviation, standard error, and confidence intervals for your data (you can read details on the function [here](https://www.rdocumentation.org/packages/Rmisc/versions/1.5/topics/summarySE)). 
 
@@ -218,7 +241,7 @@ library(tidyverse)
 
 Once you have ```tidyverse``` installed and loaded, we can build the code to calculate some summary statistics. Just like when we use the function  ```summarySE()```, we need to specify how we want the data to be grouped for calculating the mean and other statistics. Above we grouped by ```Species ``` so we will do that again here with the ```group_by()``` function.
 
-In addition to defining the grouping variable, we then need to add a function that we want to apply to the data. For now, we will just calculate the mean ```Sepal.Length``` per ```Species``` like above. To calculate mean in the tidyverse, we use the ```summarise()``` function ([you can read more about it here](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/summarise)). Within the ```summarise()``` function, you can pass a summary function, such as the ```mean``` function, and name that column something (here we are naming it ```mean_Sepal.Length```).  
+In addition to defining the grouping variable, we then need to add a function that we want to apply to the data. For now, we will just calculate the mean ```Sepal.Length``` per ```Species``` like above. To calculate mean in the tidyverse, we use the ```summarise()``` function ([you can read more about it here](https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/summarise)). Within the ```summarise()``` function, you can pass a summary function, such as the ```mean``` function, and name that column something (here we are naming it ```mean_Sepal.Length```). 
 
 We will add these functions to our data (```iris```) using the pipe (``` %>%```) operator. This pipe has been defined in the tidyverse to pipe a value forward into a function like below. We can pipe several functions together for our desired outcome, which is why using tidyverse syntax produces fairly clean code.
 
@@ -246,17 +269,22 @@ iris %>%
 
 Again, this will now produce the same values as the ```summarySE()``` function used above with slightly different significant figures.
 
-The ```summarise()```
+The ```summarise()``` function we are using here is really powerful for these summary data (mean, sample size, mean, etc.), however, for some summary statistics we will need to perform small calculations. For example, if we want to calculate the standard error of the mean, we will need to use the sample size (```N```) and standard deviation (```sd_Sepal.Length```).
+
 
 ```{r}
 
-#iris %>% 
-#  group_by(Treatment, nutrients, exp) %>% # input your grouping variable (seperate by commas if more than one)
-#  summarise(mean = round(mean(Sample.weight.postburn..g., na.rm = TRUE), 2),
-#            max = round(max(Sample.weight.postburn..g., na.rm = TRUE), 2),
-#            min = round(min(Sample.weight.postburn..g., na.rm = TRUE), 2),
-#            sd = sd(Sample.weight.postburn..g., na.rm = TRUE),
-#            n = n()) %>% 
+iris %>% 
+  group_by(Species) %>%
+  summarise(mean_Sepal.Length = mean(Sepal.Length),
+            sd_Sepal.Length = sd(Sepal.Length),
+            N = n(),
+            se_Sepal.Length = sd_Sepal.Length / sqrt(N))
+
+
+
+
+
 #  mutate(se = sd / sqrt(n),
 #         lowerci = mean - qt(1 - (0.05 / 2), n - 1) * se,
 #         upperci = mean + qt(1 - (0.05 / 2), n - 1) * se)
