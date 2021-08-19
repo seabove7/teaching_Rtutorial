@@ -155,9 +155,6 @@ $$SE = \frac{\sigma}{\sqrt{N}}$$
 
 * **R^2^** : *coefficient of determination*; the proportion of the variation in the dependent variable that is predictable from the independent variable(s). The closer R^2^ is to 1, the more strongly related two variables are.
 
-$$ R^2 = 1 - \frac{\Sigma()^2}{}$$
-
-
 <br/>
 
 
@@ -173,7 +170,7 @@ data | a data frame
 measurevar | the name of a column that contains the variable to be summariezed
 groupvars | a vector containing names of columns that contain grouping variables
 na.rm | whether to ignore NA's in your data (TRue = NA's ignored)
-conf.interval | percent range of the confidence interval (default is 95%)
+conf.interval* | percent range of the confidence interval (default is 95%) * *We will not be using CI in this lab, but it is good to know!*
 </center>
 
 <br/>
@@ -187,16 +184,6 @@ summarySE(data = iris, measurevar = "Sepal.Length", groupvars = "Species", na.rm
 ```
 
 This output now shows grouping variable (```groupvars```) ```Species``` as the first column, followed by the number of observations within each species (sample size; ```N```), the calculated mean length (notice that the mean column is given the same name as the measured variable -- ```measurevar = "Sepal.Length"```), standard deviation (```sd```) of each species, standard error (```se```), and the 95% confidence interval (```ci```).
-
-**NOTE**: We do not need to specify ```conf.interval = 0.95``` in the function call because the default for this function is to calculate the 95% confidence interval. If we wanted to calculate the 85% confidence interval, we would need to add ```conf.interval = 0.85``` within the function. Try it and see what happens!
-
-```{r}
-
-## Try it: calculate the 85% confidence interval for Sepal Length per Species
-# summarySE() function
-
-
-```
 
 <br/>
 

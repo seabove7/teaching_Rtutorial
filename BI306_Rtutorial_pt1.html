@@ -578,7 +578,6 @@ summary {
 <ul>
 <li><strong>R<sup>2</sup></strong> : <em>coefficient of determination</em>; the proportion of the variation in the dependent variable that is predictable from the independent variable(s). The closer R<sup>2</sup> is to 1, the more strongly related two variables are.</li>
 </ul>
-<p><span class="math display">\[ R^2 = 1 - \frac{\Sigma()^2}{}\]</span></p>
 <p><br /></p>
 <div id="method-1-summaryse" class="section level3">
 <h3><strong>Method 1</strong>: summarySE()</h3>
@@ -614,8 +613,8 @@ summary {
 <td align="left">whether to ignore NA’s in your data (TRue = NA’s ignored)</td>
 </tr>
 <tr class="odd">
-<td align="left">conf.interval</td>
-<td align="left">percent range of the confidence interval (default is 95%)</td>
+<td align="left">conf.interval*</td>
+<td align="left">percent range of the confidence interval (default is 95%) * <em>We will not be using CI in this lab, but it is good to know!</em></td>
 </tr>
 </tbody>
 </table>
@@ -628,14 +627,11 @@ summary {
 ## 2 versicolor 50        5.936 0.5161711 0.07299762 0.1466942
 ## 3  virginica 50        6.588 0.6358796 0.08992695 0.1807150</code></pre>
 <p>This output now shows grouping variable (<code>groupvars</code>) <code>Species</code> as the first column, followed by the number of observations within each species (sample size; <code>N</code>), the calculated mean length (notice that the mean column is given the same name as the measured variable – <code>measurevar = &quot;Sepal.Length&quot;</code>), standard deviation (<code>sd</code>) of each species, standard error (<code>se</code>), and the 95% confidence interval (<code>ci</code>).</p>
-<p><strong>NOTE</strong>: We do not need to specify <code>conf.interval = 0.95</code> in the function call because the default for this function is to calculate the 95% confidence interval. If we wanted to calculate the 85% confidence interval, we would need to add <code>conf.interval = 0.85</code> within the function. Try it and see what happens!</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co">## Try it: calculate the 85% confidence interval for Sepal Length per Species</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="co"># summarySE() function</span></span></code></pre></div>
 <p><br /></p>
 <p>Now that we can calculate the summary statistics of the <code>Sepal.Length</code> per <code>Species</code>, we should assign this function output so that we can come back to it later for things such as plotting it as a figure. To assign this, we simply need to give the output from the function a name. R object names should not contain spaces and are case sensitive. It is best to use underscores (<code>_</code>) to separate words in object naming if you must (instead of <code>-</code> or <code>.</code>). Here, we will name our summary results <code>sepal_length_sum</code>. When assigning objects to names, we first provide the name (<code>sepal_length_sum</code>), followed by the left assignment (<code>&lt;-</code>), and then what we want to be saved with the name (here it is the <code>summarSE()</code> results).</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>sepal_length_sum &lt;-<span class="st"> </span><span class="kw">summarySE</span>(<span class="dt">data =</span> iris, <span class="dt">measurevar =</span> <span class="st">&quot;Sepal.Length&quot;</span>, <span class="dt">groupvars =</span> <span class="st">&quot;Species&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>sepal_length_sum &lt;-<span class="st"> </span><span class="kw">summarySE</span>(<span class="dt">data =</span> iris, <span class="dt">measurevar =</span> <span class="st">&quot;Sepal.Length&quot;</span>, <span class="dt">groupvars =</span> <span class="st">&quot;Species&quot;</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>Notice that R did not print the results from the function in the same way it did earlier. This is because you have assigned the object to a name. If you want to view the results after assigning the name, you now just need to run the name assigned to the output like so:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>sepal_length_sum</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>sepal_length_sum</span></code></pre></div>
 <pre><code>##      Species  N Sepal.Length        sd         se        ci
 ## 1     setosa 50        5.006 0.3524897 0.04984957 0.1001765
 ## 2 versicolor 50        5.936 0.5161711 0.07299762 0.1466942
@@ -646,18 +642,18 @@ summary {
 <h3><strong>Method 2</strong>: Tidyverse</h3>
 <p>The second method we will use will rely on <code>tidyverse</code> syntax. This is a really useful collection of R packages that are designed for data science and make your code very clean for other people to understand. This method will require a bit more effort up front, but is more flexible than using the <code>summarySE()</code> function.</p>
 <p>Start by installing and loading the <code>tidyverse</code> package.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">## You do this one! How do you install the tidyverse package? Add the code below.</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># install package</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co">## How do you load the tidyverse package? Add the code below.</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="co"># load package</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">## You do this one! How do you install the tidyverse package? Add the code below.</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co"># install package</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">## How do you load the tidyverse package? Add the code below.</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># load package</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
 <p>Once you have <code>tidyverse</code> installed and loaded, we can build the code to calculate some summary statistics. Just like when we use the function <code>summarySE()</code>, we need to specify how we want the data to be grouped for calculating the mean and other statistics. Above we grouped by <code>Species</code> so we will do that again here with the <code>group_by()</code> function.</p>
 <p>In addition to defining the grouping variable, we then need to add a function that we want to apply to the data. For now, we will just calculate the mean <code>Sepal.Length</code> per <code>Species</code> like above. To calculate mean in the tidyverse, we use the <code>summarise()</code> function (<a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/summarise">you can read more about it here</a>). Within the <code>summarise()</code> function, you can pass a summary function, such as the <code>mean</code> function, and name that column something (here we are naming it <code>mean_Sepal.Length</code>).</p>
 <p>We will add these functions to our data (<code>iris</code>) using the pipe (<code>%&gt;%</code>) operator. This pipe has been defined in the tidyverse to pipe a value forward into a function like below. We can pipe several functions together for our desired outcome, which is why using tidyverse syntax produces fairly clean code.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb18-3"><a href="#cb18-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length))</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   Species    mean_Sepal.Length
 ##   &lt;fct&gt;                  &lt;dbl&gt;
@@ -666,11 +662,11 @@ summary {
 ## 3 virginica               6.59</code></pre>
 <p>We now see the mean <code>Sepal.Length</code> per <code>Species</code> has been calculated. We can compare this to the mean calculated above using <code>summarySE()</code> and they result in the same values with slightly different significant digits. One thing to note about using <code>tidyverse</code> is that it will generally convert <code>data.frame</code> objects to <code>tibble</code> format, which is just a ‘lazy’ type of data frame that can be faster to process, but you can <a href="https://tibble.tidyverse.org">read more about that here if you are interested</a>. Just know that <code>tidyverse</code> will convert to a <code>tibble</code> and that may impact some functionality of your new data structure in some situations. Here, this will not be a problem so we will move forward.</p>
 <p>Now that we have calculated the mean <code>Sepal.Length</code> per <code>Species</code>, we want to also add the sample size (<code>N</code>) and standard deviation (<code>sd</code>) to our function. We will add the standard deviation calculation to the code by adding the <code>sd()</code> function within the <code>summarise()</code> function, similar to the <code>mean()</code> function. Next, we will add the sample size with the function <code>n()</code> again within <code>summarise()</code>. See that within the <code>summarise()</code> function that the other functions are separated by by <code>,</code>. If you do not include those commas, the code will result in an error.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),</span>
-<span id="cb21-4"><a href="#cb21-4"></a>            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),</span>
-<span id="cb21-5"><a href="#cb21-5"></a>            <span class="dt">N =</span> <span class="kw">n</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),</span>
+<span id="cb20-4"><a href="#cb20-4"></a>            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),</span>
+<span id="cb20-5"><a href="#cb20-5"></a>            <span class="dt">N =</span> <span class="kw">n</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 3 x 4
 ##   Species    mean_Sepal.Length sd_Sepal.Length     N
 ##   &lt;fct&gt;                  &lt;dbl&gt;           &lt;dbl&gt; &lt;int&gt;
@@ -679,12 +675,12 @@ summary {
 ## 3 virginica               6.59           0.636    50</code></pre>
 <p>Again, this will now produce the same values as the <code>summarySE()</code> function used above with slightly different significant figures.</p>
 <p>The <code>summarise()</code> function we are using here is really powerful for these summary data (mean, sample size, mean, etc.), however, for some summary statistics we will need to perform small calculations. For example, if we want to calculate the standard error of the mean, we will need to use the sample size (<code>N</code>) and standard deviation (<code>sd_Sepal.Length</code>).</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),</span>
-<span id="cb23-4"><a href="#cb23-4"></a>            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),</span>
-<span id="cb23-5"><a href="#cb23-5"></a>            <span class="dt">N =</span> <span class="kw">n</span>(),</span>
-<span id="cb23-6"><a href="#cb23-6"></a>            <span class="dt">se_Sepal.Length =</span> sd_Sepal.Length <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(N))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),</span>
+<span id="cb22-4"><a href="#cb22-4"></a>            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),</span>
+<span id="cb22-5"><a href="#cb22-5"></a>            <span class="dt">N =</span> <span class="kw">n</span>(),</span>
+<span id="cb22-6"><a href="#cb22-6"></a>            <span class="dt">se_Sepal.Length =</span> sd_Sepal.Length <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(N))</span></code></pre></div>
 <pre><code>## `summarise()` ungrouping output (override with `.groups` argument)</code></pre>
 <pre><code>## # A tibble: 3 x 5
 ##   Species    mean_Sepal.Length sd_Sepal.Length     N se_Sepal.Length
@@ -692,10 +688,10 @@ summary {
 ## 1 setosa                  5.01           0.352    50          0.0498
 ## 2 versicolor              5.94           0.516    50          0.0730
 ## 3 virginica               6.59           0.636    50          0.0899</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co">#  mutate(se = sd / sqrt(n),</span></span>
-<span id="cb26-2"><a href="#cb26-2"></a><span class="co">#         lowerci = mean - qt(1 - (0.05 / 2), n - 1) * se,</span></span>
-<span id="cb26-3"><a href="#cb26-3"></a><span class="co">#         upperci = mean + qt(1 - (0.05 / 2), n - 1) * se)</span></span>
-<span id="cb26-4"><a href="#cb26-4"></a><span class="co">#</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co">#  mutate(se = sd / sqrt(n),</span></span>
+<span id="cb25-2"><a href="#cb25-2"></a><span class="co">#         lowerci = mean - qt(1 - (0.05 / 2), n - 1) * se,</span></span>
+<span id="cb25-3"><a href="#cb25-3"></a><span class="co">#         upperci = mean + qt(1 - (0.05 / 2), n - 1) * se)</span></span>
+<span id="cb25-4"><a href="#cb25-4"></a><span class="co">#</span></span></code></pre></div>
 <p><br /></p>
 </div>
 </div>
