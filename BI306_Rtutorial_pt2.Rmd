@@ -1,0 +1,87 @@
+---
+title: "BI 306 Lab"
+date: '*Fall 2021*'
+output:
+  html_document:
+    theme: cosmo
+    highlight: tango
+  pdf_document: default
+  word_document: default
+---
+
+<br/>
+
+# **R Tutorial: Part 2**
+
+```{r, echo=FALSE}
+
+# R stats meme
+url <- "https://sakaluk.files.wordpress.com/2016/02/4282183.jpg?w=312&h=390"
+
+```
+<center><img src="`r url`" width="300"></center>
+
+## **Goals for this tutorial**
+
+* Create basic figures (line graph, bar chart, scatter plot)
+* Perform a simple linear regression on data
+
+
+## **Making simple figures**
+
+Now that we have calculated some summary statistics, we will want to work on visualizing these data in figures. There are many different and appropriate ways to visualize these types of data, but we will explore just a few in the course: **bar plot, line graph, and scatter plot**.
+
+
+
+[Here is a really nice website for making charts and graphs in R.](https://www.r-graph-gallery.com/index.html) It is broken down by types of data so may also be helpful when exploring your own data!
+
+<br/>
+
+### **Bar plots**
+
+For this tutorial, we are just going to focus on building a bar plot. Bar plots are useful for depicting values of categorical variables, mean and standard errors, and percentages.
+This is a helpful resource for [making and customizing barplots in ggplot](http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization) and this is from the [ggplot2 website](https://ggplot2.tidyverse.org/reference/geom_bar.html).
+
+<br/>
+
+
+### **Line graphs**
+
+<br/>
+
+
+### **Scatter plots**
+
+<br/>
+
+
+---
+
+## <span style="color:red">**Second R Assignment:**</span>
+
+**This R assignment will be due by the the start of next lab**. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission.
+
+<br/>
+
+---
+
+
+## **Helpful resources**
+
+* [R tutorial with links to other tutorials/resources](https://github.com/MoteCHaDlab/IntroGitHubandR/tree/main/R)
+* [R Markdown cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+* [Data visualization with ggplot2 cheatsheet](https://hbctraining.github.io/Intro-to-R-flipped/cheatsheets/data-visualization-2.1.pdf)
+* [Base R cheat sheet](https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf)
+* [A bunch of R cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
+
+```{r, echo=FALSE}
+
+# R stats meme
+url2 <- "https://i.redd.it/hbgrpj5qg5zz.jpg"
+
+```
+<center><img src="`r url2`" width="200"></center>
+
+## **Still stuck? Reach out to your TA/TF or attend an R help session held throughout the semester!**
+
+<br/>

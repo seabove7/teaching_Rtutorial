@@ -1,18 +1,29 @@
 ---
-title: 'BI 306 Lab'
-date: "*Fall 2021*"
-output: 
+title: "BI 306 Lab"
+date: '*Fall 2021*'
+output:
   html_document:
     theme: cosmo
     highlight: tango
+  pdf_document: default
+  word_document: default
 ---
 
 <br/>
 
 # **R Tutorial: Part 1**
 
-<center>
-**Welcome to the first lab for BIology of Global Change! We are going to be doings some analysis and visualization of data collected during labs this semester so we will have a brief 2 lab tutorial in the programming language R. R is quickly becoming one of the most popular tools for data analysis and visualization in a lot of biological and ecological fields. [R is a free programming language](https://www.r-project.org/about.html) that has a lot of powerful tools to help researchers perform tasks from simple summary statistics to complicated ecological modeling and mapping. We will use this as an introduction to using R, but this course is by no means a coding or statistic course. The expectation here is to learn the goals from each tutorial and participate in the labs so that you will be able to use these skill for analyses in this lab.**
+```{r, echo=FALSE}
+
+# R stats meme
+url <- "https://memegenerator.net/img/instances/62624007.jpg"
+
+```
+<center><img src="`r url`" width="400">
+
+<br/>
+
+**Welcome to the first lab for Biology of Global Change! We are going to be doings some analysis and visualization of data collected during labs this semester so we will have a brief 2 lab tutorial in the programming language R. R is quickly becoming one of the most popular tools for data analysis and visualization in a lot of biological and ecological fields. [R is a free programming language](https://www.r-project.org/about.html) that has a lot of powerful tools to help researchers perform tasks from simple summary statistics to complicated ecological modeling and mapping. We will use this as an introduction to using R, but this course is by no means a coding or statistic course. The expectation here is to learn the goals from each tutorial and participate in the labs so that you will be able to use these skill for analyses in this lab.**
 </center>
 
 <br/>
@@ -44,8 +55,7 @@ output:
 * Install R and R studio
 * View the structure of data sets
 * Perform basic summary statistics on data (```summarySE()``` and ```tidyverse```)
-* Create basic figures of data (line graph, bar chart, scatter plot)
-* Perform a simple linear regression on data
+* Make R markdown table to display data
 
 
 ## **Getting started with R**
@@ -205,6 +215,13 @@ sepal_length_sum
 
 <br/>
 
+```{r}
+
+library(knitr)
+kable(sepal_length_sum)
+
+```
+
 
 ### **Method 2**: Tidyverse
 The second method we will use will rely on  ```tidyverse``` syntax. This is a really useful collection of R packages that are designed for data science and make your code very clean for other people to understand. This method will require a bit more effort up front, but is more flexible than using the ```summarySE()``` function.   
@@ -256,10 +273,10 @@ iris %>%
 
 Again, this will now produce the same values as the ```summarySE()``` function used above with slightly different significant figures.
 
-The ```summarise()``` function we are using here is really powerful for these summary data (mean, sample size, mean, etc.), however, for some summary statistics we will need to perform small calculations. For example, if we want to calculate the standard error of the mean, we will need to use the sample size (```N```) and standard deviation (```sd_Sepal.Length```).
+The ```summarise()``` function we are using here is really powerful for these summary data (mean, sample size, mean, etc.), however, for some summary statistics we will need to perform small calculations. For example, if we want to calculate the standard error ($SE$) of the mean, we will need to use the sample size (```N```) and standard deviation (```sd_Sepal.Length```) (see the equation for $SE$ above). We can add another line within the ```summarise()``` function to also calculate the $SE$ using the named variables for the mean ($\overline{X}$; ```mean_Sepal.Length```), sample size ($N$; ```N```), and standard deviation ($\sigma$; ```sd_Sepal.Length```) like shown below:
 
 
-```{r}
+```{r message=FALSE}
 
 iris %>% 
   group_by(Species) %>%
@@ -268,18 +285,31 @@ iris %>%
             N = n(),
             se_Sepal.Length = sd_Sepal.Length / sqrt(N))
 
-
-
-
-
-#  mutate(se = sd / sqrt(n),
-#         lowerci = mean - qt(1 - (0.05 / 2), n - 1) * se,
-#         upperci = mean + qt(1 - (0.05 / 2), n - 1) * se)
-#
 ```
 
+<br/>
+
+This looks great! The last thing to do now is assign this ```tibble``` to a name just like with the ```summarySE()``` output. For this one, we will name it ```sepal_length_sum_tidy``` to specify that is it the summary output from the ```tidyverse`` method. Go ahead and name it yourself here:
+
+```{r}
+
+## Name the above new object 'sepal_length_sum_tidy' like we named the
+## summarySE() output above using the left assignment (<-)
+
+
+```
 
 <br/>
+
+---
+
+## <span style="color:red">**First R Assignment:**</span>
+
+Your first lab assignment is to get you a bit more familiar with R. **This will be due by the the start of next lab**. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission.
+
+<br/>
+
+---
 
 ## **Helpful resources**
 
@@ -290,5 +320,16 @@ iris %>%
 * [A bunch of R cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
 
 
+```{r, echo=FALSE}
+
+# R stats meme
+url2 <- "https://i.redd.it/hbgrpj5qg5zz.jpg"
+
+```
+<center><img src="`r url2`" width="200"></center>
+
 ## **Still stuck? Reach out to your TA/TF or attend an R help session held throughout the semester!**
+
+<br/>
+
 
