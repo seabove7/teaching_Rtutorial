@@ -2,11 +2,11 @@
 title: "BI 306 Lab"
 date: '*Fall 2021*'
 output:
-  word_document:
-    reference_docx: ../Misc_files/word_styles_ref.docx
-#  html_document:
-#    theme: cosmo
-#    highlight: tango
+    word_document:  
+      reference_docx: ../Misc_files/word_styles_ref.docx  
+#    html_document:
+#      theme: cosmo
+#      highlight: tango
 ---
 
 ```{r, echo=FALSE}
@@ -227,7 +227,7 @@ We will need to install and load the ```knitr``` package to make nice tables in 
 
 ## You do this one! How do you install the knitr package? Add the code below.
 # install package
-install.packages("knitr")
+
 
 ```
 
@@ -235,7 +235,7 @@ install.packages("knitr")
 
 ## How do you load the knitr package? Add the code below.
 # load package
-library(knitr)
+
 
 ```
 
@@ -268,7 +268,7 @@ Start by installing and loading the ```tidyverse``` package.
 
 ## You do this one! How do you install the tidyverse package? Add the code below.
 # install package
-install.packages("tidyverse")
+
 
 ```
 
@@ -276,7 +276,7 @@ install.packages("tidyverse")
 
 ## How do you load the tidyverse package? Add the code below.
 # load package
-library(tidyverse)
+
 
 ```
 

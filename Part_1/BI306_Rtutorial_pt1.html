@@ -625,11 +625,9 @@ pre code {
 <p>Last thing we will do with the <code>sepal_length_sum</code> data frame will be to display it as a nice table in the R markdown output. This is a nice way to display your data once you have a summary of the data. To do this, we will use the <code>knitr</code> package with the function <code>kable()</code>. This package (and function) can do a lot of really helpful things for R markdown output files, especially if you use them to create reports on data (you can review the <a href="https://www.rdocumentation.org/packages/knitr/versions/1.30">documentation of the package here</a> or read <a href="https://www.rdocumentation.org/packages/knitr/versions/1.30/topics/kable">specifically about the kable function</a>).</p>
 <p>We will need to install and load the <code>knitr</code> package to make nice tables in the R markdown output.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">## You do this one! How do you install the knitr package? Add the code below.</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="co"># install package</span></span>
-<span id="cb16-3"><a href="#cb16-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;knitr&quot;</span>)</span></code></pre></div>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co"># install package</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">## How do you load the knitr package? Add the code below.</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># load package</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="kw">library</span>(knitr)</span></code></pre></div>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># load package</span></span></code></pre></div>
 <p><br /></p>
 <p>Once you have <code>knitr</code> loaded, making a basic table is very simple. The name of the data frame we want to display as a table just needs to be typed within the parentheses like so:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">kable</span>(sepal_length_sum)</span></code></pre></div>
@@ -719,11 +717,9 @@ pre code {
 <p>The second method we will use will rely on <code>tidyverse</code> syntax. This is a really useful collection of R packages that are designed for data science and make your code very clean for other people to understand. This method will require a bit more effort up front, but is more flexible than using the <code>summarySE()</code> function.</p>
 <p>Start by installing and loading the <code>tidyverse</code> package.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co">## You do this one! How do you install the tidyverse package? Add the code below.</span></span>
-<span id="cb20-2"><a href="#cb20-2"></a><span class="co"># install package</span></span>
-<span id="cb20-3"><a href="#cb20-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="co"># install package</span></span></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co">## How do you load the tidyverse package? Add the code below.</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="co"># load package</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="co"># load package</span></span></code></pre></div>
 <p>Once you have <code>tidyverse</code> installed and loaded, we can build the code to calculate some summary statistics. Just like when we use the function <code>summarySE()</code>, we need to specify how we want the data to be grouped for calculating the mean and other statistics. Above we grouped by <code>Species</code> so we will do that again here with the <code>group_by()</code> function.</p>
 <p>In addition to defining the grouping variable, we then need to add a function that we want to apply to the data. For now, we will just calculate the mean <code>Sepal.Length</code> per <code>Species</code> like above. To calculate mean in the tidyverse, we use the <code>summarise()</code> function (<a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/summarise">you can read more about it here</a>). Within the <code>summarise()</code> function, you can pass a summary function, such as the <code>mean</code> function, and name that column something (here we are naming it <code>mean_Sepal.Length</code>).</p>
 <p>We will add these functions to our data (<code>iris</code>) using the pipe (<code>%&gt;%</code>) operator. This pipe has been defined in the tidyverse to pipe a value forward into a function like below. We can pipe several functions together for our desired outcome, which is why using tidyverse syntax produces fairly clean code.</p>
