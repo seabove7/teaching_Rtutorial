@@ -460,14 +460,23 @@ pre code {
 <strong>Welcome to the first lab for Biology of Global Change! We are going to be doings some analysis and visualization of data collected during labs this semester so we will have a brief 2 lab tutorial in the programming language R. R is quickly becoming one of the most popular tools for data analysis and visualization in a lot of biological and ecological fields. <a href="https://www.r-project.org/about.html">R is a free programming language</a> that has a lot of powerful tools to help researchers perform tasks from simple summary statistics to complicated ecological modeling and mapping. We will use this as an introduction to using R, but this course is by no means a coding or statistic course. The expectation here is to learn the goals from each tutorial and participate in the labs so that you will be able to use these skill for analyses in this lab.</strong>
 </center>
 <p><br /></p>
-<div id="before-you-begin-you-will-need-to-download-the-following" class="section level3">
-<h3><strong>Before you begin, you will need to download the following:</strong></h3>
+<div id="goals-for-this-tutorial" class="section level2">
+<h2><strong>Goals for this tutorial</strong></h2>
 <ul>
-<li>R software <a href="https://archive.linux.duke.edu/cran/">here</a> for your computer<br />
-</li>
+<li>Install R and R studio</li>
+<li>View the structure of data sets</li>
+<li>Perform basic summary statistics on data (<code>summarySE()</code> and <code>tidyverse</code>)</li>
+<li>Make R markdown table to display data</li>
+</ul>
+<p><br /></p>
+</div>
+<div id="before-you-begin-you-will-need-to-download-the-following" class="section level2">
+<h2><strong>Before you begin, you will need to download the following:</strong></h2>
+<ul>
+<li>R software <a href="https://archive.linux.duke.edu/cran/">here</a> for your computer</li>
 <li>RStudio <a href="https://www.rstudio.com/products/rstudio/download/#download">here</a></li>
 </ul>
-</div>
+<p><br /></p>
 <div id="hints-for-starting-with-r-coding" class="section level3">
 <h3>Hints for starting with R coding</h3>
 <ul>
@@ -485,14 +494,6 @@ pre code {
 </ul>
 <p><br /></p>
 </div>
-<div id="goals-for-this-tutorial" class="section level2">
-<h2><strong>Goals for this tutorial</strong></h2>
-<ul>
-<li>Install R and R studio</li>
-<li>View the structure of data sets</li>
-<li>Perform basic summary statistics on data (<code>summarySE()</code> and <code>tidyverse</code>)</li>
-<li>Make R markdown table to display data</li>
-</ul>
 </div>
 <div id="getting-started-with-r" class="section level2">
 <h2><strong>Getting started with R</strong></h2>
@@ -541,10 +542,11 @@ pre code {
 <span id="cb10-2"><a href="#cb10-2"></a><span class="kw">help</span>(<span class="dt">package =</span> <span class="st">&quot;Rmisc&quot;</span>)</span></code></pre></div>
 <p><br /></p>
 </div>
-<div id="simply-summary-statistics" class="section level2">
-<h2><strong>Simply summary statistics</strong></h2>
+<div id="simple-summary-statistics" class="section level2">
+<h2><strong>Simple summary statistics</strong></h2>
 <p>Once you know what the structure <code>str()</code> of your data looks like, it is also good to look at some basic summary statistics. There are many different ways to calculate summary statistics in R, but here we will explore two different methods using different R packages.</p>
-<p>In this course, you will be expected to be able to calculate, interpret, and report the following summary statistics:</p>
+<p><br /></p>
+<p>In this course, you will be expected to be able to calculate, interpret, and report the following variables:</p>
 <ul>
 <li><strong>Sample size</strong> (<span class="math inline">\(N\)</span>): number of observations/individuals included in a study</li>
 <li><strong>Mean</strong> (<span class="math inline">\(\overline{X}\)</span>): the sum (<span class="math inline">\(\Sigma_{x}\)</span>) of the values divided by the number of values (<span class="math inline">\(N\)</span>)</li>
@@ -620,8 +622,17 @@ pre code {
 ## 2 versicolor 50        5.936 0.5161711 0.07299762 0.1466942
 ## 3  virginica 50        6.588 0.6358796 0.08992695 0.1807150</code></pre>
 <p><br /></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">library</span>(knitr)</span>
-<span id="cb16-2"><a href="#cb16-2"></a><span class="kw">kable</span>(sepal_length_sum)</span></code></pre></div>
+<p>Last thing we will do with the <code>sepal_length_sum</code> data frame will be to display it as a nice table in the R markdown output. This is a nice way to display your data once you have a summary of the data. To do this, we will use the <code>knitr</code> package with the function <code>kable()</code>. This package (and function) can do a lot of really helpful things for R markdown output files, especially if you use them to create reports on data (you can review the <a href="https://www.rdocumentation.org/packages/knitr/versions/1.30">documentation of the package here</a> or read <a href="https://www.rdocumentation.org/packages/knitr/versions/1.30/topics/kable">specifically about the kable function</a>).</p>
+<p>We will need to install and load the <code>knitr</code> package to make nice tables in the R markdown output.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co">## You do this one! How do you install the knitr package? Add the code below.</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co"># install package</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;knitr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">## How do you load the knitr package? Add the code below.</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># load package</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="kw">library</span>(knitr)</span></code></pre></div>
+<p><br /></p>
+<p>Once you have <code>knitr</code> loaded, making a basic table is very simple. The name of the data frame we want to display as a table just needs to be typed within the parentheses like so:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">kable</span>(sepal_length_sum)</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -660,23 +671,65 @@ pre code {
 </tr>
 </tbody>
 </table>
+<p>The default <code>kable()</code> table is pretty good, but you can also add helpful things like a table caption. Below we add a caption to the sample table created above, but you are encouraged to explore other ways to modify the table by reading the <a href="https://www.rdocumentation.org/packages/knitr/versions/1.30/topics/kable">function documentation</a>. To add the caption, we add the code <code>caption = &quot;&quot;</code> within the parentheses of the function and then type the desired table caption within the quotes (<code>&quot; &quot;</code>).</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="kw">kable</span>(sepal_length_sum, <span class="dt">caption =</span> <span class="st">&quot;Table 1 | Summary statistics of sepal length by species created using summarySE()&quot;</span>)</span></code></pre></div>
+<table>
+<caption>Table 1 | Summary statistics of sepal length by species created using summarySE()</caption>
+<thead>
+<tr class="header">
+<th align="left">Species</th>
+<th align="right">N</th>
+<th align="right">Sepal.Length</th>
+<th align="right">sd</th>
+<th align="right">se</th>
+<th align="right">ci</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">setosa</td>
+<td align="right">50</td>
+<td align="right">5.006</td>
+<td align="right">0.3524897</td>
+<td align="right">0.0498496</td>
+<td align="right">0.1001765</td>
+</tr>
+<tr class="even">
+<td align="left">versicolor</td>
+<td align="right">50</td>
+<td align="right">5.936</td>
+<td align="right">0.5161711</td>
+<td align="right">0.0729976</td>
+<td align="right">0.1466942</td>
+</tr>
+<tr class="odd">
+<td align="left">virginica</td>
+<td align="right">50</td>
+<td align="right">6.588</td>
+<td align="right">0.6358796</td>
+<td align="right">0.0899270</td>
+<td align="right">0.1807150</td>
+</tr>
+</tbody>
+</table>
+<p><br /></p>
 </div>
 <div id="method-2-tidyverse" class="section level3">
 <h3><strong>Method 2</strong>: Tidyverse</h3>
 <p>The second method we will use will rely on <code>tidyverse</code> syntax. This is a really useful collection of R packages that are designed for data science and make your code very clean for other people to understand. This method will require a bit more effort up front, but is more flexible than using the <code>summarySE()</code> function.</p>
 <p>Start by installing and loading the <code>tidyverse</code> package.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">## You do this one! How do you install the tidyverse package? Add the code below.</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># install package</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co">## How do you load the tidyverse package? Add the code below.</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="co"># load package</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="co">## You do this one! How do you install the tidyverse package? Add the code below.</span></span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="co"># install package</span></span>
+<span id="cb20-3"><a href="#cb20-3"></a><span class="kw">install.packages</span>(<span class="st">&quot;tidyverse&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co">## How do you load the tidyverse package? Add the code below.</span></span>
+<span id="cb21-2"><a href="#cb21-2"></a><span class="co"># load package</span></span>
+<span id="cb21-3"><a href="#cb21-3"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
 <p>Once you have <code>tidyverse</code> installed and loaded, we can build the code to calculate some summary statistics. Just like when we use the function <code>summarySE()</code>, we need to specify how we want the data to be grouped for calculating the mean and other statistics. Above we grouped by <code>Species</code> so we will do that again here with the <code>group_by()</code> function.</p>
 <p>In addition to defining the grouping variable, we then need to add a function that we want to apply to the data. For now, we will just calculate the mean <code>Sepal.Length</code> per <code>Species</code> like above. To calculate mean in the tidyverse, we use the <code>summarise()</code> function (<a href="https://www.rdocumentation.org/packages/dplyr/versions/0.7.8/topics/summarise">you can read more about it here</a>). Within the <code>summarise()</code> function, you can pass a summary function, such as the <code>mean</code> function, and name that column something (here we are naming it <code>mean_Sepal.Length</code>).</p>
 <p>We will add these functions to our data (<code>iris</code>) using the pipe (<code>%&gt;%</code>) operator. This pipe has been defined in the tidyverse to pipe a value forward into a function like below. We can pipe several functions together for our desired outcome, which is why using tidyverse syntax produces fairly clean code.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-3"><a href="#cb22-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 2
 ##   Species    mean_Sepal.Length
 ##   &lt;fct&gt;                  &lt;dbl&gt;
@@ -685,11 +738,11 @@ pre code {
 ## 3 virginica               6.59</code></pre>
 <p>We now see the mean <code>Sepal.Length</code> per <code>Species</code> has been calculated. We can compare this to the mean calculated above using <code>summarySE()</code> and they result in the same values with slightly different significant digits. One thing to note about using <code>tidyverse</code> is that it will generally convert <code>data.frame</code> objects to <code>tibble</code> format, which is just a ‘lazy’ type of data frame that can be faster to process, but you can <a href="https://tibble.tidyverse.org">read more about that here if you are interested</a>. Just know that <code>tidyverse</code> will convert to a <code>tibble</code> and that may impact some functionality of your new data structure in some situations. Here, this will not be a problem so we will move forward.</p>
 <p>Now that we have calculated the mean <code>Sepal.Length</code> per <code>Species</code>, we want to also add the sample size (<code>N</code>) and standard deviation (<code>sd</code>) to our function. We will add the standard deviation calculation to the code by adding the <code>sd()</code> function within the <code>summarise()</code> function, similar to the <code>mean()</code> function. Next, we will add the sample size with the function <code>n()</code> again within <code>summarise()</code>. See that within the <code>summarise()</code> function that the other functions are separated by by <code>,</code>. If you do not include those commas, the code will result in an error.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),</span>
-<span id="cb21-4"><a href="#cb21-4"></a>            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),</span>
-<span id="cb21-5"><a href="#cb21-5"></a>            <span class="dt">N =</span> <span class="kw">n</span>())</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb24-2"><a href="#cb24-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),</span>
+<span id="cb24-4"><a href="#cb24-4"></a>            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),</span>
+<span id="cb24-5"><a href="#cb24-5"></a>            <span class="dt">N =</span> <span class="kw">n</span>())</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 4
 ##   Species    mean_Sepal.Length sd_Sepal.Length     N
 ##   &lt;fct&gt;                  &lt;dbl&gt;           &lt;dbl&gt; &lt;int&gt;
@@ -698,12 +751,12 @@ pre code {
 ## 3 virginica               6.59           0.636    50</code></pre>
 <p>Again, this will now produce the same values as the <code>summarySE()</code> function used above with slightly different significant figures.</p>
 <p>The <code>summarise()</code> function we are using here is really powerful for these summary data (mean, sample size, mean, etc.), however, for some summary statistics we will need to perform small calculations. For example, if we want to calculate the standard error (<span class="math inline">\(SE\)</span>) of the mean, we will need to use the sample size (<code>N</code>) and standard deviation (<code>sd_Sepal.Length</code>) (see the equation for <span class="math inline">\(SE\)</span> above). We can add another line within the <code>summarise()</code> function to also calculate the <span class="math inline">\(SE\)</span> using the named variables for the mean (<span class="math inline">\(\overline{X}\)</span>; <code>mean_Sepal.Length</code>), sample size (<span class="math inline">\(N\)</span>; <code>N</code>), and standard deviation (<span class="math inline">\(\sigma\)</span>; <code>sd_Sepal.Length</code>) like shown below:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></span>
-<span id="cb23-3"><a href="#cb23-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),</span>
-<span id="cb23-4"><a href="#cb23-4"></a>            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),</span>
-<span id="cb23-5"><a href="#cb23-5"></a>            <span class="dt">N =</span> <span class="kw">n</span>(),</span>
-<span id="cb23-6"><a href="#cb23-6"></a>            <span class="dt">se_Sepal.Length =</span> sd_Sepal.Length <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(N))</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a>iris <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),</span>
+<span id="cb26-4"><a href="#cb26-4"></a>            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),</span>
+<span id="cb26-5"><a href="#cb26-5"></a>            <span class="dt">N =</span> <span class="kw">n</span>(),</span>
+<span id="cb26-6"><a href="#cb26-6"></a>            <span class="dt">se_Sepal.Length =</span> sd_Sepal.Length <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(N))</span></code></pre></div>
 <pre><code>## # A tibble: 3 × 5
 ##   Species    mean_Sepal.Length sd_Sepal.Length     N se_Sepal.Length
 ##   &lt;fct&gt;                  &lt;dbl&gt;           &lt;dbl&gt; &lt;int&gt;           &lt;dbl&gt;
@@ -712,17 +765,27 @@ pre code {
 ## 3 virginica               6.59           0.636    50          0.0899</code></pre>
 <p><br /></p>
 <p>This looks great! The last thing to do now is assign this <code>tibble</code> to a name just like with the <code>summarySE()</code> output. For this one, we will name it <code>sepal_length_sum_tidy</code> to specify that is it the summary output from the `<code>tidyverse</code> method. Go ahead and name it yourself here:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="co">## Name the above new object &#39;sepal_length_sum_tidy&#39; like we named the</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="co">## summarySE() output above using the left assignment (&lt;-)</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co">## Name the above new object &#39;sepal_length_sum_tidy&#39; like we named the</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="co">## summarySE() output above using the left assignment (&lt;-)</span></span></code></pre></div>
+<p>Go ahead and also display the <code>sepal_length_sum_tidy</code> data as a table (using <code>kable()</code> like above) with a descriptive caption:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="co">## Use the kable() function to make a table of your ```sepal_length_sum_tidy``` data that will</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a><span class="co">## display the data nicely in the R markdown output</span></span></code></pre></div>
 <p><br /></p>
-<hr />
 </div>
 </div>
 <div id="first-r-assignment" class="section level2">
 <h2><span style="color:red"><strong>First R Assignment:</strong></span></h2>
-<p>Your first lab assignment is to get you a bit more familiar with R. <strong>This will be due by the the start of next lab</strong>. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission.</p>
+<p>Your first lab assignment is to get you a bit more familiar with R. <strong>This will be due by the the start of next lab</strong>. You will submit both your R markdown code and the Word output of your work. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Create a R markdown document that will knit as a Word document.</strong> You will submit both the R markdown code and the Word document for this assignment so this will be assessed as a part of your submission.</li>
+<li><strong>Calculate summary statistics.</strong> Using the <em>iris</em> data, calculate the <em>mean</em>, <em>sample size</em>, <em>standard error</em>, and <em>standard deviation</em> of the <strong>Petal.Width</strong> per species of flower. Do this using both methods we discussed in lab:
+<ol style="list-style-type: upper-alpha">
+<li>Using <em>summarySE()</em></li>
+<li>Using <em>tidyverse</em></li>
+</ol></li>
+<li><strong>Display summary data as R markdown table</strong> Choose one of the summary data frames you create above (either using <em>summarySE()</em> or <em>tidyverse</em>) and have it display as a table in your R markdown output.</li>
+</ol>
 <p><br /></p>
-<hr />
 </div>
 <div id="helpful-resources" class="section level2">
 <h2><strong>Helpful resources</strong></h2>
@@ -739,7 +802,6 @@ pre code {
 </div>
 <div id="still-stuck-reach-out-to-your-tatf-or-attend-an-r-help-session-held-throughout-the-semester" class="section level2">
 <h2><strong>Still stuck? Reach out to your TA/TF or attend an R help session held throughout the semester!</strong></h2>
-<p><br /></p>
 </div>
 </div>
 
