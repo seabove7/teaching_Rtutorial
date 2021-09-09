@@ -249,6 +249,36 @@ ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length, colour = Species, gr
 
 ## **Read data into R from .csv**
 
+We have been working with the data already available in R, however, you are able to also analyze your own data that you can read into R. For example, your second R homework assignment will be working with some data collected by the [Massachusetts Water Resource Authority](https://www.mwra.com) in the Charles River. These data are saved as a .csv file but can by uploaded into R for assessment just like we did with the ```iris``` data. Before you begin, make sure the file ```BI306_tutorial_data.csv``` is saved in the same folder as this code (this is your working directory. You can check your working directory through the user interface of R Studio or by running the command ```getwd()```). Once you ensure the .csv file is there, you can run the following code to read in your .csv data as a data frame and give it a name (here we will name it ```water_data```).
+
+```{r}
+
+water_data <- read.csv("../Part_2/BI306_tutorial_data.csv", header = TRUE)
+
+```
+
+**Couple things to note here:** 
+1. Your file name needs to be in quotation marks (```""```) or R will not be able to identify it.
+2. If your .csv file is *NOT* in the same directory that you are working in, you can provide the direct path to it with different folders being separated by ```/``` (like in this example).
+3. We have also specified ```header = TRUE``` in the ```read.csv()``` function. This tells R that the first row of each column in your .csv file corresponds to the column name or ID (aka, the column header).
+
+You can now use what you have learned previously to check out what the data frame looks like using the ```head()``` function and check on the structure (using ```str()```). Do that below:
+
+```{r}
+
+## Head your dataframe
+
+## View the structure of your data frame
+
+```
+
+<br/>
+
+<center>
+**Great! You can now get a sense of what your data look like and begin to explore the data frame through data visualization and statistical analyses! You are now ready to complete your second R assignment (detailed below)!**
+</center>
+
+
 <br/>
 
 
