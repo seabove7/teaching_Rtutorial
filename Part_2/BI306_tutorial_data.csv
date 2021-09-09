@@ -1,0 +1,20 @@
+﻿Region,Subregion,Station_ID,Date,Time,E.coli_per100mL,FecalColiform_per100mL
+Charles River,Downstream,166,10/13/16,9:16:00 AM,52,110
+Charles River,Downstream,166,10/27/16,9:05:00 AM,74,105
+Charles River,Downstream,166,10/27/16,9:05:00 AM,41,150
+Charles River,Downstream,166,11/8/16,9:52:00 AM,31,85
+Charles River,Downstream,166,11/21/16,10:25:00 AM,74,240
+Charles River,Downstream,166,12/6/16,10:22:00 AM,169,1220
+Charles River,Upstream,5,10/13/16,9:35:00 AM,63,135
+Charles River,Upstream,5,10/27/16,9:23:00 AM,305,2475
+Charles River,Upstream,5,11/8/16,10:13:00 AM,262,1420
+Charles River,Upstream,5,11/21/16,10:45:00 AM,882,3000
+Charles River,Upstream,5,12/6/16,10:41:00 AM,231,1355
+Charles River,Upstream,12,10/13/16,10:06:00 AM,262,775
+Charles River,Upstream,12,10/13/16,10:06:00 AM,158,1770
+Charles River,Upstream,12,10/27/16,10:00:00 AM,97,275
+Charles River,Upstream,12,11/8/16,10:34:00 AM,132,270
+Charles River,Upstream,12,11/8/16,10:34:00 AM,74,390
+Charles River,Upstream,12,11/21/16,11:13:00 AM,97,310
+Charles River,Upstream,12,12/6/16,11:10:00 AM,52,135
+Charles River,Upstream,12,12/20/16,10:45:00 AM,160,905
