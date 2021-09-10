@@ -24,9 +24,9 @@ url <- "https://sakaluk.files.wordpress.com/2016/02/4282183.jpg?w=312&h=390"
 ## **Goals for this tutorial**
 
 * Create basic figures
-  * line graph
-  * bar chart
+  * bar plot
   * scatter plot
+  * line graph
 * Perform a simple linear regression on data
 * Load .csv file of data
 
@@ -180,10 +180,12 @@ We now have an informative bar plot that shows the mean sepal length (```mean_Se
 
 This is a helpful resource for [making and customizing barplots in ggplot](http://www.sthda.com/english/wiki/ggplot2-barplots-quick-start-guide-r-software-and-data-visualization) and this is from the [ggplot2 website](https://ggplot2.tidyverse.org/reference/geom_bar.html).
 
+<br/>
+
 
 ### **Scatter plots**
 
-While bar plots are informative figures to visualise many types of data, these are not always the best plots for *all* data. For example, if we want to know what the relationship between ```Sepal.Length``` and ```Petal.Length``` of an individual flower is, we might want to use a **scatter plot** to visually represent that relationship. We again will use ```ggplot()``` to produce this figure. Go ahead and start to make a ```ggplot()``` figure with ```Sepal.Length``` along the x axis and ```Petal.Length``` along the y axis. Also assign
+While the above plots are informative ways to visualise many types of data, these are not always the best plots for *all* data. For example, if we want to know what the relationship between ```Sepal.Length``` and ```Petal.Length``` of an individual flower is, we might want to use a **scatter plot** to visually represent that relationship. We again will use ```ggplot()``` to produce this figure. Go ahead and start to make a ```ggplot()``` figure with ```Sepal.Length``` along the x axis and ```Petal.Length``` along the y axis. Also assign
 
 ```{r}
 
@@ -244,7 +246,52 @@ ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length, colour = Species, gr
 
 ## **Linear regressions and R^2^**
 
+As we can see from the figure above, there is some sort of relationship between the ```Sepal.Length``` and ```Petal.Length``` of an iris flower. We can see that in the scatter plot above, but how can we statistically test this relationship? We can use a linear regression of the two continuous parameters with the function ```lm()``` in R. By performing a simple linear regression on these data, we will be able to calculate the slope ($m$) and intercept ($b$) of the line of best fit, report the p value (or significance level) of the relationship, and also the correlation coefficient (R^2^). 
+
+The basic structure of the ```lm()``` function requires us to supply the data (```data```) and then specify the **response variable** (```y```, this is generally depicted on the y axis and is the variable we anticipated being influenced by the predictor) and the **predictor variable(s)**, which is what we expect to change the response variable (```x```), in the function below (*You can read more about the ```lm()``` function [here](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/lm).)*:
+
+<center>
+```lm(y ~ x, data)```
+</center>
+
+For the data we have been working with, the ```lm()``` function will be written like shown below:
+
+```{r}
+
+lm(Petal.Length ~ Sepal.Length, data = iris)
+
+```
+
+After running the linear regression on these data, we see R has produced an output that repeats the model we performed (```Call:```), as well as produces two values listed under ```Coefficients```: ```(Intercept)``` and ```Sepal.Length```. Like the name suggests, the ```(Intercept)``` provides the y intercept ($b$) of the linear regression (again, remember $y = mx + b$, where $b$ represents the slope of the line). The other variable provided, ```Sepal.Length```, actually represents the slope ($m$) of the line. So from performing the linear regression, we are now able to report the equation of the line that best represents the data like so:
+
+$$y = 1.858433x + -7.101443$$
+
+Now that you know the equation of the line, it is also good to look at the summary of your linear regression. You can view the summary of a linear regression model by placing the above ```lm()``` function into the ```summary()``` function like shown below:
+
+```{r}
+
+summary(lm(Petal.Length ~ Sepal.Length, data = iris))
+
+```
+
+We can see a lot of information about this linear regression now from the ```summary()``` function. The summary is made up of a couple different parts:
+
+* ```Call:``` This is the model being assessed by the ```summary()``` function
+* ```Residuals:``` The section summarizes the residuals, the error between the prediction of the model and the actual results.  Smaller residuals are better.
+* ```Coefficients:``` For each variable and the intercept, a weight is produced and that weight has other attributes like the standard error, a t-test value and significance.
+    * **Estimate**: This is the weight given to the variable.  In this simple regression case (one variable plus the intercept), for every level of increase in Sepal.Length, the model predicts an increase of 1.85843.
+    * **Std. Error**: Tells you how precisely was the estimate measured.  It’s really only useful for calculating the t-value.
+    * **t-value and Pr(>[t])**: The t-value is calculated by taking the coefficient divided by the Std. Error.  It is then used to test whether or not the coefficient is significantly different from zero.  If it is not significant, then the coefficient really is not adding anything to the model and could be dropped or investigated further.  Pr(>|t|) is the significance level.
+* ```Performance Measures```
+    * **Residual Standard Error**: This is the standard deviation of the residuals.  Smaller is better.
+    * **Multiple / Adjusted R-Square**: For one variable, the distinction does not really matter.  R-squared shows the amount of variance explained by the model.  Adjusted R-Square takes into account the number of variables and is most useful for multiple-regression.
+    * **F-Statistic**: The F-test checks if at least one variable’s weight is significantly different than zero. This is a global test to help asses a model.
+
+For now, the information that we are most interested in from this list is the **Adjusted R-squared** (0.7583) value and the **p-value** (< 2.2e-16). Remember from the first tutorial, that the R^2^ values represents the proportion of the variance and that the closer R^2^ is to 1, the more strongly related the two variables are. From this R^2^, we can see about 76% of the sample variation is explained by the linear model. Finally, the p-value in the performance measures portion of the summary output represents the significance of the model. When the p-value is below 0.05, we can say that there is a significant relationship between the two variables.
+
 <br/>
+
+Still confused about running a linear regression in R? Check out this [video](https://www.youtube.com/watch?v=66z_MRwtFJM).
 
 
 ## **Read data into R from .csv**
@@ -273,6 +320,7 @@ You can now use what you have learned previously to check out what the data fram
 ```
 
 <br/>
+
 
 <center>
 **Great! You can now get a sense of what your data look like and begin to explore the data frame through data visualization and statistical analyses! You are now ready to complete your second R assignment (detailed below)!**
@@ -307,9 +355,36 @@ Using these data, you will complete the following tasks:
 2. **Make a bar plot of average E. coli abundance downstream vs upstream** You will need to calculate the summary statistics of the data before creating your bar plot. Make sure to also include error bars for standard error, appropriate x and y axis labels, and a brief figure caption. 
 3. **Make a scatter plot to observe the relationship between E. coli and Fecal Coliform** Create this plot with E. coli along the x axis and fecal coliform along the y axis. Your scatter plot should also display the linear trend of the data using ```geom_smooth()```. 
 4. **Perform a linear regression to assess the relationship between E. coli and Fecal Coliform** Calculate the equation of the line depicted on your scatter plot for question 4. Show your code for how you performed your regression and then have your markdown file report the equation of your line ($y = mx + b$), your R^2^ value, and your p-value from your regression.
-5. **Make a line graph showing E. coli abundance over time** Using what you learned above, create a line graph to demonstrate the change of E. coli over time. Make sure you provide informative x and y labels, as well as a brief figure caption.
+5. **Make a line graph showing E. coli abundance over time** Using what you learned above, create a line graph to demonstrate the change of E. coli over time at the ```downstream``` location. Make sure you provide informative x and y labels, as well as a brief figure caption.
+
+<br/>
+
+**HINTS FOR THIS ASSIGNMENT:**   
+
+*   You can create a line graph in ```ggplot()``` by adding the function ```geom_line()```, similarly to the use of ```geom_point()``` or ```geom_bar()``` above.
+*   You will need to subset (or filter) your water data to produce your line graph (use the ```subset()``` or ```filter()``` function) (see example below).
+* Another helpful function to review your data is with the ```summary()``` function. This will provide you counts of each observation within a ```factor``` column (see ```Subregion``` as an example) or some summary stats on ```continuous``` variables (see ```Ecoli_per100mL``` as an example). This will also give you hints as to how R is interpreting your types of variables (similar to some of the information you can gather from using ```str()```). 
+
+```{r}
+
+summary(water_data)
+
+```
+
+```{r}
+
+## Using function subset() to filter or subset your data:
+downstream <- subset(water_data, Subregion == "Downstream")
 
 
+## Using function filter() (from the tidyverse) to filter or subset your data:
+downstream <- filter(water_data, Subregion == "Downstream")
+
+
+## View the summary() of the new downstream data to ensure that it has been properly filtered:
+summary(downstream)
+
+```
 
 <br/>
 
