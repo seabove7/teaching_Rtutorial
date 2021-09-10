@@ -256,8 +256,7 @@ pre code {
 <p>Go ahead and install and load the <code>ggplot2()</code> package below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Install ggplot2:
 
-## Load ggplot2 package
-<span class="kw">library</span>(ggplot2)</code></pre></div>
+## Load ggplot2 package</code></pre></div>
 <p>As always, as you get more comfortable with R, you should explore the package <a href="https://ggplot2.tidyverse.org/reference/ggplot.html">documentation</a> to better understand what you can do with the package, but for now we will just start with a basic bar plot.</p>
 <p>While the package is called <code>ggplot2()</code>, the actual function to create the plot is just <code>ggplot()</code>. If you just run the function in your script, it will produce a blank space (and will pop up under your <strong>Plots</strong> area in your R Studio window if have it open).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>()</code></pre></div>
@@ -276,26 +275,12 @@ pre code {
 
 
 ## Load the tidyverse
-<span class="kw">library</span>(tidyverse)</code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ tibble  3.1.2     ✓ dplyr   1.0.7
-## ✓ tidyr   1.1.3     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.1
-## ✓ purrr   0.3.4</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Calculate summary stats using summarySE()
 
 
-## Calculate summary stats using the tidyverse
+## Calculate summary stats using summarySE()
 
-sepal_length_summary &lt;-<span class="st"> </span>iris <span class="op">%&gt;%</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">group_by</span>(Species) <span class="op">%&gt;%</span>
-<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mean_Sepal.Length =</span> <span class="kw">mean</span>(Sepal.Length),
-            <span class="dt">sd_Sepal.Length =</span> <span class="kw">sd</span>(Sepal.Length),
-            <span class="dt">N =</span> <span class="kw">n</span>(),
-            <span class="dt">se_Sepal.Length =</span> sd_Sepal.Length <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(N))</code></pre></div>
+
+## Calculate summary stats using the tidyverse</code></pre></div>
 <p>Double check that your summary statistics make sense, and then we can create a new bar plot to show the mean <code>Sepal.Width</code> per <code>Species</code>. This is slightly different than the count plot code above.</p>
 <ol style="list-style-type: decimal">
 <li>First, you need to update the <code>data</code> to specify the <code>sepal_length_summary</code> data frame.</li>
