@@ -240,6 +240,7 @@ We will need to install and load the ```knitr``` package to make nice tables in 
 
 ```
 
+
 <br/>
 
 Once you have ```knitr``` loaded, making a basic table is very simple. The name of the data frame we want to display as a table just needs to be typed within the parentheses like so:
@@ -358,7 +359,8 @@ Your first lab assignment is to get you a bit more familiar with R. **This will 
 2. **Calculate summary statistics.** Using the *iris* data, calculate the *mean*, *sample size*, *standard error*, and *standard deviation* of the **Petal.Width** per species of flower. Do this using both methods we discussed in lab:   
     A.  Using *summarySE()*
     B.  Using *tidyverse*
-3. **Display summary data as R markdown table** Choose one of the summary data frames you create above (either using *summarySE()* or *tidyverse*) and have it display as a table in your R markdown output.
+3. **Display summary data as R markdown table** Choose one of the summary data frames you create above (either using *summarySE()* or *tidyverse*) and have it display as a table in your R markdown output.  
+4. **Create a temperature and salinity data file** Using all the temperature and salinity data you have been collecting over the last couple labs for the tanks in the back of the lab, work on creating a data file that you will be able to read into R for a later R assignment. Submit your working data file also on Canvas.
 
 <br/>
 

@@ -11,7 +11,6 @@ output:
 
 <br/>
 
-
 # **R Tutorial: Part 2**
 
 ```{r, echo=FALSE}
@@ -25,9 +24,9 @@ url <- "https://sakaluk.files.wordpress.com/2016/02/4282183.jpg?w=312&h=390"
 ## **Goals for this tutorial**
 
 * Create basic figures
-  * bar plot
-  * scatter plot
-  * line graph
+    * bar plot
+    * scatter plot
+    * line graph
 * Perform a simple linear regression on data
 * Load .csv file of data
 
@@ -148,7 +147,7 @@ ggplot(data = sepal_length_summary, aes(x = Species, y = mean_Sepal.Length)) +
 
 ```
 
-Next, we want to add error bars to each bar to depict the the standard deviation from the mean. This time, we need to add a new function to our figure code called ```geom_errorbar()```. Within that function, you again want to pass information to the function using the ```aes()``` call. 
+Next, we want to add error bars to each bar to depict the the standard deviation from the mean. This time, we need to add a new function to our figure code called ```geom_errorbar()```. Within that function, you again want to pass information to the function using the ```aes()``` call: ```ymmin``` and ```ymax```. These will tell ```ggplot()``` the minimum and maximum values for your error bars. To create standard deviation error bars, we will need to either add (```ymax```) or subtract (```ymin```) the standard deviation (```sd_Sepal.Length```) from the ```mean_Sepal.Length``` like shown below:
 
 ```{r}
 
@@ -181,7 +180,7 @@ This is a helpful resource for [making and customizing barplots in ggplot](http:
 
 ### **Scatter plots**
 
-While the above plots are informative ways to visualise many types of data, these are not always the best plots for *all* data. For example, if we want to know what the relationship between ```Sepal.Length``` and ```Petal.Length``` of an individual flower is, we might want to use a **scatter plot** to visually represent that relationship. We again will use ```ggplot()``` to produce this figure. Go ahead and start to make a ```ggplot()``` figure with ```Sepal.Length``` along the x axis and ```Petal.Length``` along the y axis. Also assign
+While the above plots are informative ways to visualise many types of data, these are not always the best plots for *all* data. For example, if we want to know what the relationship between ```Sepal.Length``` and ```Petal.Length``` of an individual flower is, we might want to use a **scatter plot** to visually represent that relationship. We again will use ```ggplot()``` to produce this figure. Go ahead and start to make a ```ggplot()``` figure with ```Sepal.Length``` along the x axis and ```Petal.Length``` along the y axis. Also assign nicer x and y axis labels.
 
 ```{r}
 
@@ -330,7 +329,7 @@ You can now use what you have learned previously to check out what the data fram
 
 ## <span style="color:red">**Second R Assignment:**</span>
 
-**This R assignment will be due by the the start of next lab**. You will submit both your R markdown code and the Word output of your work. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission.   
+**This R assignment will be due by the the start of next lab**. You will submit both your R markdown code and the HTML or Word output of your work. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission.   
 
 The data were collected by the Massachusetts Water Resource Authority and includes E. Coli and Fecal coliform concentrations in the Charles River. To begin, take a look at where the data were collected on the site map below (and also included in your R folder). Then orient yourself to the types of data included in the included data:
 
@@ -347,7 +346,7 @@ The data were collected by the Massachusetts Water Resource Authority and includ
   
 Using these data, you will complete the following tasks:
 
-1. **Create a R markdown document that will knit as a Word document.** You will submit both the R markdown code and the Word document for this assignment so this will be assessed as a part of your submission. 
+1. **Create a R markdown document that will knit as a Word document.** You will submit both the R markdown code and the HTML or Word document for this assignment so this will be assessed as a part of your submission. 
 2. **Make a bar plot of average E. coli abundance downstream vs upstream** You will need to calculate the summary statistics of the data before creating your bar plot. Make sure to also include error bars for standard error, appropriate x and y axis labels, and a brief figure caption. 
 3. **Make a scatter plot to observe the relationship between E. coli and Fecal Coliform** Create this plot with E. coli along the x axis and fecal coliform along the y axis. Your scatter plot should also display the linear trend of the data using ```geom_smooth()```. 
 4. **Perform a linear regression to assess the relationship between E. coli and Fecal Coliform** Calculate the equation of the line depicted on your scatter plot for question 4. Show your code for how you performed your regression and then have your markdown file report the equation of your line ($y = mx + b$), your R^2^ value, and your p-value from your regression.
