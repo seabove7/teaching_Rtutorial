@@ -1,6 +1,6 @@
 ---
-title: "BI 306 Lab"
-date: '*Fall 2021*'
+title: "Marine Biology Intro to R Lab"
+date: '*Spring 2024*'
 output:
   html_document:
     theme: cosmo
@@ -24,9 +24,9 @@ url <- "https://sakaluk.files.wordpress.com/2016/02/4282183.jpg?w=312&h=390"
 ## **Goals for this tutorial**
 
 * Create basic figures
-    * bar plot
-    * scatter plot
-    * line graph
+  * bar plot
+  * scatter plot
+  * line graph
 * Perform a simple linear regression on data
 * Load .csv file of data
 
@@ -55,7 +55,7 @@ Do you remember the **structure** of this data? Let's review the structure below
 
 ```
 
-Great! So you know the ```Species``` is a ```Factor``` and that the other parameters are ```numeric``` and that you have 150 observations, or rows of data. Time to make out first figure!
+Great! So you know the ```Species``` is a ```factor``` and that the other parameters are ```numeric``` and that you have 150 observations, or rows of data. Time to make out first figure!
 
 <br/>
 
@@ -121,7 +121,6 @@ Bar plots are also useful to display summary statistics of data. Based on what y
 ## Calculate summary stats using the tidyverse
 
 
-
 ```
 
 Double check that your summary statistics make sense, and then we can create a new bar plot to show the mean ```Sepal.Width``` per ```Species```. This is slightly different than the count plot code above.
@@ -147,7 +146,7 @@ ggplot(data = sepal_length_summary, aes(x = Species, y = mean_Sepal.Length)) +
 
 ```
 
-Next, we want to add error bars to each bar to depict the the standard deviation from the mean. This time, we need to add a new function to our figure code called ```geom_errorbar()```. Within that function, you again want to pass information to the function using the ```aes()``` call: ```ymmin``` and ```ymax```. These will tell ```ggplot()``` the minimum and maximum values for your error bars. To create standard deviation error bars, we will need to either add (```ymax```) or subtract (```ymin```) the standard deviation (```sd_Sepal.Length```) from the ```mean_Sepal.Length``` like shown below:
+Next, we want to add error bars to each bar to depict the the standard deviation from the mean. This time, we need to add a new function to our figure code called ```geom_errorbar()```. Within that function, you again want to pass information to the function using the ```aes()``` call. 
 
 ```{r}
 
@@ -180,7 +179,7 @@ This is a helpful resource for [making and customizing barplots in ggplot](http:
 
 ### **Scatter plots**
 
-While the above plots are informative ways to visualise many types of data, these are not always the best plots for *all* data. For example, if we want to know what the relationship between ```Sepal.Length``` and ```Petal.Length``` of an individual flower is, we might want to use a **scatter plot** to visually represent that relationship. We again will use ```ggplot()``` to produce this figure. Go ahead and start to make a ```ggplot()``` figure with ```Sepal.Length``` along the x axis and ```Petal.Length``` along the y axis. Also assign nicer x and y axis labels.
+While the above plots are informative ways to visualise many types of data, these are not always the best plots for *all* data. For example, if we want to know what the relationship between ```Sepal.Length``` and ```Petal.Length``` of an individual flower is, we might want to use a **scatter plot** to visually represent that relationship. We again will use ```ggplot()``` to produce this figure. Go ahead and start to make a ```ggplot()``` figure with ```Sepal.Length``` along the x axis and ```Petal.Length``` along the y axis. Also assign
 
 ```{r}
 
@@ -199,10 +198,9 @@ ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length)) +
 
 ```
 
-Looks great! You can now see a general pattern that as the ```Sepal.Length``` increases, you see a similar increase in the ```Petal.Length```. You may notice that in the bottom left of the scatter plot, there is a group of points that do not conform to this pattern. What could be causing it? Since we have combined data from three different ```Species``` of flowers here, maybe that is causing that pattern! So to look at how the relationship of ```Sepal.Length``` and ```Petal.Length``` changes across species, we can add a call to have each point a different colour based on ```Species``` just like we did in the bar graph (except we can just use ```colour = Species``` instead of ```fill = Species``` in this specific case). Go ahead and add that into the ```aes()``` portino of the ```ggplot()``` function.
+Looks great! You can now see a general pattern that as the ```Sepal.Length``` increases, you see a similar increase in the ```Petal.Length```. You may notice that in the bottom left of the scatter plot, there is a group of points that do not conform to this pattern. What could be causing it? Since we have combined data from three different ```Species``` of flowers here, maybe that is causing that pattern! So to look at how the relationship of ```Sepal.Length``` and ```Petal.Length``` changes across species, we can add a call to have each point a different colour based on ```Species``` just like we did in the bar graph (except we can just use ```colour = Species``` instead of ```fill = Species``` in this specific case). Go ahead and add that into the ```aes()``` portion of the ```ggplot()``` function.
 
 ```{r}
-
 
 ggplot(data = iris, aes(x = Sepal.Length, y = Petal.Length, colour = Species)) +
   labs(x = "Sepal length", y = "Petal length") +
@@ -291,11 +289,13 @@ Still confused about running a linear regression in R? Check out this [video](ht
 
 ## **Read data into R from .csv**
 
-We have been working with the data already available in R, however, you are able to also analyze your own data that you can read into R. For example, your second R homework assignment will be working with some data collected by the [Massachusetts Water Resource Authority](https://www.mwra.com) in the Charles River. These data are saved as a .csv file but can by uploaded into R for assessment just like we did with the ```iris``` data. Before you begin, make sure the file ```BI306_tutorial_data.csv``` is saved in the same folder as this code (this is your working directory. You can check your working directory through the user interface of R Studio or by running the command ```getwd()```). Once you ensure the .csv file is there, you can run the following code to read in your .csv data as a data frame and give it a name (here we will name it ```water_data```).
+We have been working with the data already available in R, however, you are able to also analyze your own data that you can read into R. For example, your second R homework assignment will be working with the temperature and salinity data you have been collecting in class. You should have attempted to create an excel spreadsheet of these data, but now we will discuss how to organize the data in ways that will work for analysis in R. Additionally, it is MUCH easier to work with CSV files than XLS/XLSX files. We will do this in lab together and then you can proceed below once you have all your data in the .csv. file.
+
+These data are now saved as a .csv file but can by uploaded into R for assessment just like we did with the ```iris``` data. Before you begin, make sure the file ```WaterData_spring24.csv``` is saved in the same folder as this code (this is your working directory. You can check your working directory through the user interface of R Studio or by running the command ```getwd()```). Once you ensure the .csv file is there, you can run the following code to read in your .csv data as a data frame and give it a name (here we will name it ```water_data```).
 
 ```{r}
 
-water_data <- read.csv("../Part_2/BI306_tutorial_data.csv", header = TRUE)
+water_data <- read.csv("../WaterData_spring24.csv", header = TRUE)
 
 ```
 
@@ -329,28 +329,26 @@ You can now use what you have learned previously to check out what the data fram
 
 ## <span style="color:red">**Second R Assignment:**</span>
 
-**This R assignment will be due by the the start of next lab**. You will submit both your R markdown code and the HTML or Word output of your work. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission.   
+**This R assignment will be due by the the start of next lab**. You will submit both your R markdown code and the Word output of your work. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission.   
 
-The data were collected by the Massachusetts Water Resource Authority and includes E. Coli and Fecal coliform concentrations in the Charles River. To begin, take a look at where the data were collected on the site map below (and also included in your R folder). Then orient yourself to the types of data included in the included data:
+While you should all be familiar with the data you have been collecting in lab, let's do a quick refresher! The data you are analyzing has been collected during Marine Biology lab this semester (Spring 2024) from two small aquariums full of salt water (see photo below). The two different tanks, labelled **A** and **B**, vary in measured temperature and salinity across the several time points of measurement. In your .csv data file, you should have the following information included:
 
-  * Region: Charles River
-  * Subregion: “downstream of lower basin” and “upstream of lower basin”, each is associated with the station ID
-  * Station ID: a unique number for each station
-  * Date/Time: Date and time sample was collected
-  * E. coli (# per 100mL): number of E. coli bacteria in 100mL of water
-  * Fecal coliform (#per 100mL): number of fecal coliform bacteria in 100mL of water
+  * tank: Tank ID
+  * date_time: Date and time sample was collected
+  * sal_psu: Water salinity (measured in parts per thousand/ppt or PSU)
+  * temp_C: Water temperature (measured in degrees Celsius) from glass thermometers
   
-![*Site map of sampling locations for R assignment*](BI306_SiteMap_tutorial.png)
+![*Photo of seawater tanks from lab*](WaterTanks_spring24.png)
 
 <br/>
   
 Using these data, you will complete the following tasks:
 
-1. **Create a R markdown document that will knit as a Word document.** You will submit both the R markdown code and the HTML or Word document for this assignment so this will be assessed as a part of your submission. 
-2. **Make a bar plot of average E. coli abundance downstream vs upstream** You will need to calculate the summary statistics of the data before creating your bar plot. Make sure to also include error bars for standard error, appropriate x and y axis labels, and a brief figure caption. 
-3. **Make a scatter plot to observe the relationship between E. coli and Fecal Coliform** Create this plot with E. coli along the x axis and fecal coliform along the y axis. Your scatter plot should also display the linear trend of the data using ```geom_smooth()```. 
-4. **Perform a linear regression to assess the relationship between E. coli and Fecal Coliform** Calculate the equation of the line depicted on your scatter plot for question 4. Show your code for how you performed your regression and then have your markdown file report the equation of your line ($y = mx + b$), your R^2^ value, and your p-value from your regression.
-5. **Make a line graph showing E. coli abundance over time** Using what you learned above, create a line graph to demonstrate the change of E. coli over time at the ```downstream``` location. Make sure you provide informative x and y labels, as well as a brief figure caption.
+1. **Create a R markdown document that will knit as a Word document.** You will submit both the R markdown code and the Word document for this assignment so this will be assessed as a part of your submission. 
+2. **Make a bar plot of average temperature in tank A vs tank B** You will need to calculate the summary statistics of the data before creating your bar plot. Make sure to also include error bars for standard error, appropriate x and y axis labels, and a brief figure caption. 
+3. **Make a scatter plot to observe the relationship between temperature and salinity for tank B** Create this plot with temperature along the x axis and salinity along the y axis. Your scatter plot should also display the linear trend of the data using ```geom_smooth()```. 
+4. **Perform a linear regression to assess the relationship between temperature and salinity for tank B** Calculate the equation of the line depicted on your scatter plot for question 4. Show your code for how you performed your regression and then have your markdown file report the equation of your line ($y = mx + b$), your R^2^ value, and your p-value from your regression.
+5. **Make a line graph showing salinity in BOTH tanks over time** Using what you learned above, create a line graph to demonstrate the change tank salinity over time in both tank **A** and **B**. Make sure you provide informative x and y labels, as well as a brief figure caption.
 
 <br/>
 
@@ -358,7 +356,7 @@ Using these data, you will complete the following tasks:
 
 *   You can create a line graph in ```ggplot()``` by adding the function ```geom_line()```, similarly to the use of ```geom_point()``` or ```geom_bar()``` above.
 *   You will need to subset (or filter) your water data to produce your line graph (use the ```subset()``` or ```filter()``` function) (see example below).
-* Another helpful function to review your data is with the ```summary()``` function. This will provide you counts of each observation within a ```factor``` column (see ```Subregion``` as an example) or some summary stats on ```continuous``` variables (see ```Ecoli_per100mL``` as an example). This will also give you hints as to how R is interpreting your types of variables (similar to some of the information you can gather from using ```str()```). 
+* Another helpful function to review your data is with the ```summary()``` function. This will provide you counts of each observation within a ```factor``` column (see ```tank``` as an example) or some summary stats on ```continuous``` variables (see ```temp_C``` as an example). This will also give you hints as to how R is interpreting your types of variables (similar to some of the information you can gather from using ```str()```). 
 
 ```{r}
 
@@ -369,15 +367,15 @@ summary(water_data)
 ```{r}
 
 ## Using function subset() to filter or subset your data:
-downstream <- subset(water_data, Subregion == "Downstream")
+tankA_dat <- subset(water_data, tank == "A")
 
 
 ## Using function filter() (from the tidyverse) to filter or subset your data:
-downstream <- filter(water_data, Subregion == "Downstream")
+tankA_dat <- filter(water_data, tank == "A")
 
 
 ## View the summary() of the new downstream data to ensure that it has been properly filtered:
-summary(downstream)
+summary(tankA_dat)
 
 ```
 
@@ -402,6 +400,6 @@ url2 <- "https://i.redd.it/hbgrpj5qg5zz.jpg"
 ```
 <center><img src="`r url2`" width="200"></center>
 
-## **Still stuck? Reach out to your TA/TF or attend an R help session held throughout the semester!**
+## **Still stuck? Attend open hours, email me, or attend an R help session held throughout the semester!**
 
 <br/>

@@ -236,7 +236,8 @@ We will need to install and load the ```knitr``` package to make nice tables in 
 
 ## How do you load the knitr package? Add the code below.
 # load package
-
+library(knitr)
+library(rmarkdown)
 
 ```
 
@@ -270,7 +271,7 @@ Start by installing and loading the ```tidyverse``` package.
 
 ## You do this one! How do you install the tidyverse package? Add the code below.
 # install package
-
+install.packages("tidyverse")
 
 ```
 
@@ -278,7 +279,7 @@ Start by installing and loading the ```tidyverse``` package.
 
 ## How do you load the tidyverse package? Add the code below.
 # load package
-
+library(tidyverse)
 
 ```
 
@@ -292,7 +293,7 @@ We will add these functions to our data (```iris```) using the pipe (``` %>%```)
 
 iris %>% 
   group_by(Species) %>% 
-  summarise(mean_Sepal.Length = mean(Sepal.Length))
+  dplyr::summarise(mean_Sepal.Length = mean(Sepal.Length))
 
 ```
 
@@ -304,7 +305,7 @@ Now that we have calculated the mean ```Sepal.Length``` per ```Species```, we wa
 
 iris %>% 
   group_by(Species) %>%
-  summarise(mean_Sepal.Length = mean(Sepal.Length),
+  dplyr::summarise(mean_Sepal.Length = mean(Sepal.Length),
             sd_Sepal.Length = sd(Sepal.Length),
             N = n())
 
@@ -319,7 +320,7 @@ The ```summarise()``` function we are using here is really powerful for these su
 
 iris %>% 
   group_by(Species) %>%
-  summarise(mean_Sepal.Length = mean(Sepal.Length),
+  dplyr::summarise(mean_Sepal.Length = mean(Sepal.Length),
             sd_Sepal.Length = sd(Sepal.Length),
             N = n(),
             se_Sepal.Length = sd_Sepal.Length / sqrt(N))
@@ -334,7 +335,12 @@ This looks great! The last thing to do now is assign this ```tibble``` to a name
 
 ## Name the above new object 'sepal_length_sum_tidy' like we named the
 ## summarySE() output above using the left assignment (<-)
-
+sepal_length_sum_tidy <- iris %>% 
+  group_by(Species) %>%
+  dplyr::summarise(mean_Sepal.Length = mean(Sepal.Length),
+            sd_Sepal.Length = sd(Sepal.Length),
+            N = n(),
+            se_Sepal.Length = sd_Sepal.Length / sqrt(N))
 
 ```
 
@@ -344,7 +350,7 @@ Go ahead and also display the ```sepal_length_sum_tidy``` data as a table (using
 
 ## Use the kable() function to make a table of your ```sepal_length_sum_tidy``` data that will
 ## display the data nicely in the R markdown output
-
+kable(sepal_length_sum_tidy)
 
 ```
 
