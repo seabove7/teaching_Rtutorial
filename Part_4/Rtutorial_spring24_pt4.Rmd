@@ -14,6 +14,13 @@ output:
 
 # **R Tutorial: Part 4**
 
+```{r eval=FALSE, include=FALSE}
+
+# Need to install the following (for Mac) if knitting to PDF
+tinytex::install_tinytex()
+
+```
+
 ```{r, echo=FALSE}
 
 # R stats meme
