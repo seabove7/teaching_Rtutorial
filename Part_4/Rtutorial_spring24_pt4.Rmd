@@ -1,0 +1,144 @@
+---
+title: "Marine Biology R Assignment #4"
+date: '*Spring 2024*'
+output:
+  html_document:
+    theme: cosmo
+    highlight: tango
+  #word_document:  
+  #  reference_docx: ../Misc_files/word_styles_ref.docx  
+  #pdf_document:
+---
+
+<br/>
+
+# **R Tutorial: Part 4**
+
+```{r, echo=FALSE}
+
+# R stats meme
+url <- "https://pbs.twimg.com/media/FFgtGkKWUAIspUI?format=jpg&name=small"
+
+```
+<center><img src="`r url`" width="300"></center>
+
+## **Goals for this tutorial**
+
+* Work with larger datasets
+* Customize figures
+  * explore how to modify colors, shapes, line types
+  * multi-panel figures
+  * custom legends
+* Perform an Analysis of Variance (ANOVA) test
+
+## <span style="color:red">**Fourth R Assignment:**</span>
+
+**This R assignment will be due by 3PM on Tuesday, March 26th**. You will submit both your R markdown code and the Word output of your work. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission. 
+
+Using the ```MarineBio_ExampleData.csv``` data that can be found on Canvas, you will complete the following tasks:
+
+1. **Create a R markdown document that will knit as a Word document.** You will submit both the R markdown code and the Word document for this assignment so this will be assessed as a part of your submission. 
+2. **Recreate <span style="color:teal">Figure 1</span> (below) as closely as possible** See if you can figure out what data are shown in this figure and then ask for help if you are unsure. Using what you have learned about R so far, try to recreate the figure with captions, labels, colors, shapes, etc. as closely as possible. 
+3. **Recreate <span style="color:teal">Figure 2</span> (below) as closely as possible** See if you can figure out what data are shown in this figure and then ask for help if you are unsure. Using what you have learned about R so far, try to recreate the figure with captions, labels, colors, line types, etc. as closely as possible. 
+4. **Perform an Analysis of Variance (ANOVA) of the effect of *p*CO~2~ on calcification rate (```rate```)** Show your code for how you performed your statistical test and then have your markdown file report your p-values from your different treatment. Include a brief (~2-3 sentences) interpreting your results from your ANOVA citing statistics in your statement. 
+
+```{r include=FALSE}
+
+df <- read.csv("MarineBio_ExampleData.csv", header = TRUE)
+str(df)
+
+```
+
+```{r include=FALSE}
+
+library(tidyverse)
+
+```
+
+---
+
+### <span style="color:teal">**Figure 1**</span>
+
+*Note that I have added more descriptive species IDs here for the different corals:*
+
+* S = SSID (*Siderastrea siderea*)
+* P = PSTR (*Pseudodiploria strigosa*)
+* A = PAST (*Porites astreoides*)
+* T = UTEN (*Undaria tenuifolia*)
+
+<br/>
+
+```{r lipid summary for plot, include=FALSE}
+
+lipid_sum <- df %>% 
+  group_by(treat, species) %>% 
+  summarise(mean = mean(lipid),
+            sd = sd(lipid))
+
+```
+
+```{r lipid figure, echo=FALSE, warning=FALSE}
+
+ggplot(data = lipid_sum, aes(x = treat, colour = species)) +
+  geom_point(aes(y = mean), shape = 8, position = position_dodge(width = 0.5)) +
+  geom_errorbar(aes(ymin = mean - sd, ymax = mean + sd), position = position_dodge(width = 0.5)) +
+  scale_colour_brewer("Coral Species", labels = c("PAST", "PSTR", "SSID", "UTEN"), palette = "Dark2") +
+  labs(x = "Treatment",
+       y = "Lipids (mg/cm2)",
+       title = "Coral Lipid Content Under Ocean Acidification and Warmging",
+       subtitle = "Mean +/- standard deviation") +
+  theme_classic()
+
+```
+
+
+---
+
+### <span style="color:teal">**Figure 2**</span>
+
+*Note that this data EXCLUDES any coral that is considered ```T0``` in the ```T0_T90``` column.*
+
+<br/>
+
+```{r remove T0 samples, include=FALSE}
+
+T90_df <- df %>% 
+  filter(T0_T90 == "T90")
+
+```
+
+```{r rate v den figure, echo=FALSE, message=FALSE, warning=FALSE}
+
+ggplot(data = T90_df, aes(x = rate, y = den, colour = ftemp, linetype = ftemp)) +
+  geom_point(alpha = 0.5) +
+  scale_color_manual("Temperature", values = c("blue", "red"), labels = c("28 C", "31 C")) +
+  scale_linetype_manual("Temperature", values = c("dotted", "dashed"), labels = c("28 C", "31 C")) +
+  geom_smooth(method = lm, se = FALSE) +
+  facet_wrap(~ species, scales = "free_y", labeller = as_labeller(c("A" = "PAST", "P" = "PSTR", "S" = "SSID", "T" = "UTEN"))) +
+  labs(x = "Calcification Rate (mg/cm2/day)",
+       y = "Symbiont Density (cells/cm2)",
+       title = "Coral calcification rate versus chlorophyll a content") +
+  theme_bw()
+
+```
+
+<br/>
+
+---
+
+
+## **Helpful resources**
+
+* [R tutorial with links to other tutorials/resources](https://github.com/MoteCHaDlab/IntroGitHubandR/tree/main/R)
+* [R Markdown cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf)
+* [Data visualization with ggplot2 cheatsheet](https://hbctraining.github.io/Intro-to-R-flipped/cheatsheets/data-visualization-2.1.pdf)
+* [Base R cheat sheet](https://iqss.github.io/dss-workshops/R/Rintro/base-r-cheat-sheet.pdf)
+* [A bunch of R cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
+
+```{r, echo=FALSE}
+
+# R stats meme
+url2 <- "https://i.redd.it/hbgrpj5qg5zz.jpg"
+
+```
+<center><img src="`r url2`" width="200"></center>
