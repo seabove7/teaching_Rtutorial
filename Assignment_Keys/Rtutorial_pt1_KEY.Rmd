@@ -1,0 +1,108 @@
+---
+title: "R Assignment #1 Key"
+date: '*Marine Biology: Spring 2024*'
+output:
+    word_document:  
+      reference_docx: ../Misc_files/word_styles_ref.docx  
+#    html_document:
+#      theme: cosmo
+#      highlight: tango
+---
+
+## **First R Assignment:**
+
+Your first lab assignment is to get you a bit more familiar with R. **This will be due by the the start of next lab**. You will submit both your R markdown code and the Word output of your work. This assignment can be completed with other members from your lab section but if you work with others, please include their names on your submission.   
+
+1. **Create a R markdown document that will knit as a Word document.** You will submit both the R markdown code and the Word document for this assignment so this will be assessed as a part of your submission. 
+2. **Calculate summary statistics.** Using the *iris* data, calculate the *mean*, *sample size*, *standard error*, and *standard deviation* of the **Petal.Width** per species of flower. Do this using both methods we discussed in lab:   
+    A.  Using *summarySE()*
+    B.  Using *tidyverse*
+3. **Display summary data as R markdown table** Choose one of the summary data frames you create above (either using *summarySE()* or *tidyverse*) and have it display as a table in your R markdown output.
+
+<br/>
+
+---
+
+<br/>
+
+### Question 1:
+For full credit, you should submit both the Rmarkdown (.Rmd) and resulting Word (.doc or .docx) documents demonstrating your code and the resulting output. 
+
+<br/>
+
+
+### Question 2:
+
+#### Part A:
+
+```{r load data}
+
+data(iris) # load the iris data from R
+
+```
+
+```{r load library pt 1}
+
+library(Rmisc) # contain function summarySE() 
+
+```
+    
+```{r summary with summarySE}
+
+# summary stats (mean, N, SD, SE) of petal width from the iris data using summarySE()
+petal_width_sumSE <- summarySE(data = iris, measurevar = "Petal.Width", groupvars = "Species")
+petal_width_sumSE
+
+```
+
+<br/>
+
+#### Part B:
+
+```{r load library pt 2}
+
+library(tidyverse) # contains the tidy functions
+
+```
+
+```{r summary with tidy}
+
+# summary stats (mean, N, SD, SE) of petal width from the iris data using tidy
+petal_width_sumTIDY <- iris %>% 
+  group_by(Species) %>% 
+  summarise(mean = mean(Petal.Width),
+            SD = sd(Petal.Width),
+            N = n(),
+            SE = SD / sqrt(N))
+petal_width_sumTIDY
+
+```
+
+<br/>
+
+
+### Question 3:
+
+```{r summarySE kable}
+
+library(knitr) # load library containing kable function
+
+kable(petal_width_sumSE)
+
+```
+
+*or*
+
+```{r tidy kable}
+
+library(knitr) # load library containing kable function
+
+kable(petal_width_sumTIDY)
+
+```
+
+<br/>
+
+---
+
+*This answer key was created by Colleen Bove, please feel free to update as needed for your own assignments!*
