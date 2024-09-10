@@ -1,0 +1,146 @@
+---
+title: "Using Chi-Square to Test for Underrepresentation in STEM"
+author: "R Tutorial adapted from *Ecology for All!*"
+output: 
+  html_document:
+    theme: flatly
+---
+
+---
+
+### Learning Objective: 
+In this module, you will learn how to use loops to repeat processes in R and to use grep to match patterns among two datasets (in this case, bird species names and European surnames).
+
+To follow along with this code and the original text, you can follow [this link](https://bio.libretexts.org/Courses/Gettysburg_College/01%3A_Ecology_for_All/zz%3A_Back_Matter/24%3A_R_Practice%3A_Using_Chi-Square_to_Test_for_Underrepresentation_in_STEM)).
+
+<br/>
+
+## Underrepresentation in STEM
+In science, technology, engineering, and mathematics (STEM), some groups are disproportionately underrepresented. For example, from 2010-2018, only around 9% of masters students in the STEM fields in the United States were Black students (Funk & Parker, 2018). Similarly, Hispanic students also only accounted for about 9% of those degrees during the same time frame (Funk & Parker, 2018). White students received 62% of STEM masters degrees. Though we have made progress in reducing opportunity gaps in some STEM fields, we have seen less progress in others. 
+
+Why does underrepresentation occur? There are several factors that contribute to underrepresentation of some groups (underrepresented and minority groups, URM) in STEM, one of which is a sense of belonging. It is important that URM groups feel a strong sense of belonging in STEM, as this can positively impact retention (Kricorian et al., 2020). However, studies have shown that students from URM groups tend to feel more uncertain about their belonging to their academic field compared to students from well-represented groups (Kricorian et al., 2020). Academic opportunity is another aspect of a student's background that can influence their participation in STEM fields (Beasley & Fischer, 2012). White students typically have access to higher quality teachers and curricula in their primary and secondary educations compared to Black or Hispanic students (Beasley & Fischer, 2012). Understanding the drivers of underrepresentation may help us to develop effective strategies to promote diversity and inclusion in STEM.
+
+In this module, we will be analyzing a 2018 data set from the National Science Foundation (NSF) that quantifies the number of science and engineering graduate students by field, sex, degree, citizenship, ethnicity, and race. NSF releases these data as part of the "Diversity and STEM" report, which is updated every two years. Our goal is to test the null hypothesis that participation in STEM fields does not differ by racial identity. To do this, we will be using a chi-square test. If our p-value is <0.05, we will reject our null hypothesis.
+
+When to Use Chi-Square Tests: Chi-square tests are used when analyzing the relationship between two categorical variables and often rely on count data. In the case of our data, the two categorical variables tested are academic field and racial group.
+
+<br/>
+<br/>
+
+
+## Loading Packages and Data 
+
+Let's begin by downloading and installing the necessary packages. We will use the tidyverse package, which you've seen before, to wrangle our data. We will also install and load a new package, "gplots", that will help us to visualize our data. 
+
+```{r install package}
+# First, we need to install the new package: gplots
+# The package allows us to create a balloon plot
+
+```
+
+```{r load packages}
+
+# Next, load the tidyverse package
+
+
+# Now let's load the gplots package
+
+
+```
+
+```{r import data}
+
+# Next, we will import and clean our dataset 
+NSF_STEMDiversity <- read.csv(url("https://bio.libretexts.org/@api/deki/files/70893/NSFData_2018_CleanShort.csv?origin=mt-web")) # This loads in the dataset and stores it in R's "brain," that way we can use the data within it for analysis and visualization.
+
+NSF_STEMDiversity # let's take a look at our data to make sure it loaded okay
+
+```
+
+<br/>
+
+
+## Running a Chi-Square Test
+
+The goal of this module is to familiarize you with performing a Chi-Squared test. The code below assigns row names from the corresponding scientific fields for all data and then performs the statistical test.
+
+```{r}
+
+# Step 1 - Create a Contingency Table
+rownames(NSF_STEMDiversity) <- NSF_STEMDiversity$Field # Creates a column that has the names of each row, which in this case are the various STEM fields. This creates what is called a "contingency" table for chi-square tests. However, we then need to remove the "field" row so as not to confuse the test. 
+NSF_STEMDiversity <- NSF_STEMDiversity %>% select(-Field) # Removes the excess field column.
+
+# Step 2 - Run Your Test
+chisq.test(NSF_STEMDiversity) # Performs a chi-square test, where the null hypothesis is that field of study does not vary by racial identity
+
+```
+
+<br/>
+
+Our p-value is less than 0.05 (p = 2.2x10-16), which allows us to reject the null hypothesis that there is equal participation of racial identities across STEM fields. Instead, the data published by NSF suggests the alternative, that participation across different STEM fields varies by race. 
+
+<br/>
+
+
+## Creating a Balloon Plot
+Though we now know that participation in different STEM fields varies by race, the chi-squared test only gives us one value. Visualizing our data will help us to better understand where these discrepancies lie.
+
+```{r}
+
+dt <- as.table(as.matrix(NSF_STEMDiversity)) # The first step to creating a balloon plot is to turn our dataset into a table
+
+balloonplot(t(dt), main ="Diversity in STEM", #This creates a balloon plot using the table we created in the previous line.
+            xlab ="", ylab="", # xlab and ylab are used to set their respective axis title, which we will leave blank
+            label = FALSE, # label is set to true when you want to show the values on the plot
+            show.margins = FALSE, text.size = .5, # Deletes the margin lines and setting the text size to .5
+            rowmar = 5.5, colmar = 6, # Changes the amount of space for the row and column labels
+            dotsize=1.5/max(strwidth(20),strheight(20)), # Changes the dot size, setting the max to 20
+            dotcolor = "blue", # We can also set the dot color
+            label.lines = FALSE, # Removes the label lines from the graph
+            cum.margins = FALSE, # Removes marginal fractions 
+            colsrt = 90 ) # Changes the angle of the column titles to 90 degrees
+
+```
+
+<br/>
+
+This figure confirms that, within STEM, most fields are dominated by White graduate students. 
+
+<br/>
+<br/>
+
+## What Next? Supporting Diversity and Inclusion in STEM
+> What can we do to improve representation in STEM? One idea is to provide these students with STEM-related opportunities earlier in their academic career. Many URM students do not receive adequate preparation for college level STEM courses in high school (Ghazzawi, 2018). This opportunity gap could impact students' self-confidence and motivation going into a STEM major (Ghazzawi, 2018). STEM intervention programs provide students with intensive instruction prior to college that strengthens their background in math and science concepts (Ghazzawi, 2018). Another way to improve URM participation in STEM programs is by strengthening peer and faculty mentorships. These relationships can allow URM students to feel more connected with their field and help them in developing important time management and other skills (Ghazzawi, 2018). Kendricks et al. (2013) found that faculty mentoring was the factor that had the overall highest impact on URM students academic success in STEM. Lastly, representation is a key factor in improving URM student belonging in STEM - the motivation for the "Scientist Spotlights" you will see throughout this book! 
+
+<br/>
+
+## Case Study: Charles Henry Turner
+
+```{r, echo=FALSE}
+
+# Charles Henry Turner Photo
+url <- "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Prof._Charles_Henry_Turner.jpg/800px-Prof._Charles_Henry_Turner.jpg"
+
+```
+
+<center><img src="`r url`" width="300"></center>
+
+Charles Henry Turner was a biologist, neurologist, and psychologist who dedicated much of his life to studying animal cognition (CBC Radio, 2021). He was the first Black scientist to be published in the highly prestigious journal Science back in 1892. Throughout his life, he was able to publish a total of 71 papers. Thanks to him, we know that insects are able to hear and honey bees are capable of recognizing patterns and perceiving color (Bolt, n.d.). Despite his impressive resume of accomplishments, Turner was never able to secure a job as an academic or researcher due to racial disparities at the time (CBC Radio, 2021). Even without the ability to use a lab or research materials, Turner was able to achieve revolutionary findings in the field of animal behavior. Specifically, his work supported the idea that animals were capable of complex cognition, a finding that went against the popular beliefs at the time (CBC Radio, 2021). Unfortunately, his work was paid little attention and ended up being mostly forgotten, resulting in White scientists "re-discovering" the same findings many years later (CBC Radio, 2021).
+
+<br/>
+
+---
+
+## References:   
+  - Beasley, M. A., & Fischer, M. J. (2012). Why they leave: The impact of stereotype threat on the attrition of women and minorities from science, math and engineering majors. Social Psychology of Education, 15(4), 427-448.
+  - Bolt, C. (n.d.). More than mere insects: The brilliant mind of Charles Henry Turner. WWF. Retrieved January 5, 2023, from https://www.worldwildlife.org/storie...s-henry-turner 
+  - CBC Radio. (2021, August 13). Meet 7 groundbreaking black scientists from the past | CBC radio. CBC. Retrieved January 5, 2023, from https://www.cbc.ca/radio/quirks/blac...tory-1.5918964 
+  - Elassar, A. (2022, April 3). California once prohibited Native American fire practices. now, it's asking tribes to use them to help prevent wildfires. CNN. Retrieved January 5, 2023, from https://www.cnn.com/2022/04/03/us/ca...20the%20canopy. 
+  - Funk, C., & Parker, K. (2018, January 9). Blacks in STEM jobs are especially concerned about diversity and discrimination in the workplace. Pew Research Center's Social & Demographic Trends Project. Retrieved January 5, 2023, from https://www.pewresearch.org/social-t...the-workplace/ 
+  - Ghazzawi, D., Pattison, D., & Horn, C. (2021, July). Persistence of Underrepresented Minorities in STEM Fields: Are Summer Bridge Programs Sufficient?. In Frontiers in Education (Vol. 6, p. 224). Frontiers.
+  - Kendricks, K., Nedunuri, K. V., & Arment, A. R. (2013). Minority student perceptions of the impact of mentoring to enhance academic performance in STEM disciplines. Journal of STEM Education: Innovations and Research, 14(2).
+  - Kricorian, K., Seu, M., Lopez, D., Ureta, E., & Equils, O. (2020). Factors influencing participation of underrepresented students in STEM fields: matched mentors and mindsets. International Journal of STEM Education, 7(1), 1-9.
+  
+<br/>
+
+This R walkthrough was written by the authors from the text [Ecology for All!](https://bio.libretexts.org/Courses/Gettysburg_College/01%3A_Ecology_for_All) and adapted by [Colleen Bove](https://colleenbove.science/) for use in her Ecology course at Ursinus College.

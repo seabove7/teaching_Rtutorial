@@ -1,0 +1,200 @@
+---
+title: "Word Cloud Analysis of Silent Spring"
+author: "R Tutorial adapted from *Ecology for All!*"
+output: 
+  html_document:
+    theme: cerulean
+---
+
+*Note: This is an Module is focused on the preparation of a .txt file for purposes of text analysis. Please refer to the accompanying module '[Sentiment Analysis](https://bio.libretexts.org/Courses/Gettysburg_College/01%3A_Ecology_for_All/zz%3A_Back_Matter/23%3A_R_Practice%3A_Building_Interdisciplinary_Skillsets_to_Understand_Environmental_Attitudes_(Part_II%3A_Sentiment_Analysis))' to see how the product of this is used.*
+
+---
+
+## Learning Objective: 
+In this module, students will learn how to prepare a .txt file for the purpose of text analysis in R and will learn how to make a word cloud with the resulting textual data.
+
+To follow along with this code and the original text, you can follow [this link](https://bio.libretexts.org/Courses/Gettysburg_College/01%3A_Ecology_for_All/zz%3A_Back_Matter/21%3A_R_Practice%3A_Building_Interdisciplinary_Skillsets_to_Understand_Environmental_Attitudes_(Part_I%3A_Word_Clouds)).
+
+<br/>
+
+## Background
+When we think of coding, we often associate it heavily with STEM. Coding is used in a wide range of fields, however, including in the humanities. Often, we need to think critically about how to analyze large amounts of text without having to perform a close reading on them. Several methods in R allow us summarize these large amounts of textual data into meaningful patterns.
+
+A corpus is the term used for a set of text files of interest in an analysis. For this particular module, we will be focus on the famous book 'Silent Spring' by Rachel Carson. This book sparked a massive environmental movement - including the creation of the Environmental Protection Agency in 1970 and the banning of DDT (an insecticide that wrecked havoc on natural environments, particularly on birds). The impact of this one book is a testament to the power of individuals in conservation. Here, we will conduct a "sentiment analysis" of Silent Spring. Sentiment analysis is used to determine the "tone" of a corpus, whether it is positive, negative, or neutral. 
+
+<center>
+
+```{r, echo=FALSE}
+
+# Rachel Carson Photo
+url <- "https://live.staticflickr.com/8094/8511179932_cd04db8e3e_b.jpg"
+
+```
+
+<img src="`r url`" width="300">
+
+[Rachel Carson](https://www.flickr.com/photos/usfwshq/8511179932) by U.S. Fish and Wildlife Service is licensed under CC-BY.
+
+</center>
+
+This module will focus first on the often overlooked, but critical, stage of any analysis - data cleaning and preparation. We are trying to identify sentiment as much as possible in our corpus, so we have to take into account factors that influence the sentiment of text. While you continue with this module, please take into account the comments and how each line of code in our text preparation aids in our quest of complete objectivity and preciseness in the preparation of our corpus analysis.
+
+The analysis below is based on guidance from an article written by Mhatre 2020. 
+
+<br/>
+<br/>
+
+
+## Loading Packages and Data 
+Before we get to work, we have to download the appropriate packages for this type of analysis. Because these are specialized packages, we do need to install most of them before loading them. This stage might take a minute! The more common packages, which are already built in to Libretexts, have been commented out of the install.packages commands with a #. When you run R on your computer, you only need to install packages once (but you do need to load them each time). 
+
+```{r installing packages, eval=TRUE, include=FALSE}
+
+## Install the following packages:
+# tm : used for text mining or taking information from the text files.
+# SnowballC : for text stemming which is to reduce the words to their stem which aids in natural langue processing which we will see with the actual sentiment analysis.
+# wordcloud : word-cloud generator 
+# RColorBrewer : provides color pallets for our study which will make it easier with visualizations later on.
+
+```
+
+```{r loading packages}
+
+# Load the above packages and tidyverse
+
+
+```
+
+<br/>
+
+Now that our packages are ready, let's load our data.
+ 
+```{r loading data}
+
+# When working with R on Libretexts, we upload our file to the website, then can call to it using a URL. 
+text <- readLines(url("https://bio.libretexts.org/@api/deki/files/66199/SilentSpring.txt?origin=mt-web"))
+
+# Load the data as a corpus which aids with the analysis
+TextDoc <- Corpus(VectorSource(text))
+
+```
+
+<br/>
+<br/>
+
+
+## Cleaning and Preparing Our Data 
+After we load out .txt file we have to make sure that we eliminate anything that is not purely a text file. We will go line by line and denote what needs to be removed in order to create a proper corpus.
+
+```{r}
+
+# Replacing "/", "@" and "|" with space, this is because the processing packages can't handle anything that is not purely a string of text
+toSpace <- content_transformer(function (x , pattern ) gsub(pattern, " ", x))
+TextDoc <- tm_map(TextDoc, toSpace, "/")
+TextDoc <- tm_map(TextDoc, toSpace, "@")
+TextDoc <- tm_map(TextDoc, toSpace, "\\|")
+
+# Convert the text to lowercase so that there is all text in the corpus is uniform and can not be partial to any bias
+TextDoc <- tm_map(TextDoc, content_transformer(tolower))
+
+# Remove numbers because we still only need strings of text in the data
+TextDoc <- tm_map(TextDoc, removeNumbers)
+
+# Remove english common stopwords, stopwords are words that appear commonly in the english language like 'and', 'the' and some other examples. The reason why we remove them is because their volume within a corpus diminish the sentiment of the corpus. In, other words, it dulls it out.
+TextDoc <- tm_map(TextDoc, removeWords, stopwords("english"))
+
+# Remove punctuation
+TextDoc <- tm_map(TextDoc, removePunctuation)
+
+# Eliminate extra white spaces
+TextDoc <- tm_map(TextDoc, stripWhitespace)
+
+# Text stemming - which reduces words to their root form which can be used to amplify the sentiment being portrayed by the corpus
+TextDoc <- tm_map(TextDoc, stemDocument)
+
+```
+
+*Note: You will get a warning message, but that is because the corpus is being altered. If you get these messages you are going in the right direction.* 
+
+<br/>
+
+All if these preparations can be used for many other purposes, for example, we can generate a word cloud or get statistical word association values.
+
+
+Now that we have understood how the preparation of a text corpus works, analyze the corpus for after the publishing of Silent Spring. We challenge you to come up with 1-3 custom stopwords and rerun your analysis to see whether it changes anything. This specific work of pre-preocessing texts can be used for the creation of different word analysis and visualizations. For example, the most popular visualization is the word cloud. If we think about the preprocessing, without the elimination of common English stopwords, we would have words like 'the', 'and', and 'or' as the most frequent in the word cloud.
+
+```{r}
+
+# Remove your own stop words
+# specify your custom stopwords as a character vector, if you have/think a word appears too much within your corpus and that it can dull out the sentiment you can use the following line of code to remove your own stop word, just enter it as a string and the corpus will be altered. You can add more than one if they are separated with a comma.
+
+# In the code below, remove the word "like"
+TextDoc <- tm_map(TextDoc, removeWords, c(""))
+
+# This time, remove the following words: still, well, per, part, even, and yet
+TextDoc <- tm_map(TextDoc, removeWords, c(""))
+
+```
+
+<br/>
+
+Thanks to the preprocessing we have the following:
+
+```{r}
+
+# Build a term-document matrix
+TextDoc_dtm <- TermDocumentMatrix(TextDoc)
+dtm_m <- as.matrix(TextDoc_dtm)
+
+# Sort by descending value of frequency, this will aid in the visualization of the word cloud. 
+dtm_v <- sort(rowSums(dtm_m),decreasing=TRUE)
+dtm_d <- data.frame(word = names(dtm_v),freq=dtm_v)
+
+# Display the top 5 most frequent words
+head(dtm_d, 5)
+
+```
+
+<br/>
+
+Above, we see the most common words, now we will visualize these in a word cloud.
+
+```{r, fig.align='center'}
+
+#generate word cloud, here we are just setting the parameters for the creation of our word cloud
+set.seed(1234)
+wordcloud(words = dtm_d$word, freq = dtm_d$freq, min.freq = 5,
+          max.words=100, random.order=FALSE, rot.per=0.40, 
+          colors=brewer.pal(8, "Dark2"))
+
+```
+
+Looks great! But some of those background words feel unnecessary. Instead of removing them from the text document like above, let's just modify the wordcloud code to only print terms occurring at least 10 times and limit it to displaying only 50 words. 
+
+Copy and paste the code from above into the code chunk below and edit it based on the suggestions provided.
+
+```{r}
+
+
+
+```
+
+<br/>
+
+While you may be wondering what this has to do explicitly with ecology, we have to think about the interdisciplinary nature of Environmental Studies. Humanities intertwine with the ecological perspectives of people which would normally be analyzed through close reading and mass analysis of individual texts. With coding we can still achieve those results and make the analysis of various data forms widely available and accessible. Think about the possibilities of doing this for other disciplines and data forms. 
+
+<br/>
+<br/>
+
+## Food for Thought:
+### *What themes and ideas can you conclude from the word cloud? How can this be applied to broader studies on ecology?*
+
+---
+
+## References:   
+  - Carson, R. (1962). Silent Spring. Crest Book.    
+  - Mhatre, S., Sampaio, J., Torres, D., &amp; Abhishek, K. (2021, September 15). Text mining and sentiment analysis: Analysis with R. Simple Talk. Retrieved November 18, 2022, from https://www.red-gate.com/simple-talk...alysis-with-r/ 
+  
+<br/>
+
+This R walkthrough was written by the authors from the text [Ecology for All!](https://bio.libretexts.org/Courses/Gettysburg_College/01%3A_Ecology_for_All) and adapted by [Colleen Bove](https://colleenbove.science/) for use in her Ecology course at Ursinus College.

@@ -1,0 +1,149 @@
+---
+title: "Using Linear Models Determine the Relationship Between Biodiversity and Socioeconomic Status (Part I: Exploring Linear Model Outputs)"
+author: "R Tutorial adapted from *Ecology for All!*"
+output: 
+  html_document:
+    theme: flatly
+---
+
+---
+
+### Learning Objective: 
+In this module, readers should gain a better understanding of when to use linear regressions and how to collect and interpret linear regression statistics using R.
+
+To follow along with this code and the original text, you can follow [this link](https://bio.libretexts.org/Courses/Gettysburg_College/01%3A_Ecology_for_All/zz%3A_Back_Matter/25%3A_R_Practice%3A_Using_Linear_Models_Determine_the_Relationship_Between_Biodiversity_and_Socioeconomic_Status_(Part_I%3A_Exploring_Linear_Model_Outputs)).
+
+<br/>
+
+## The Biodiversity Implications of Socioeconomic Inequality 
+The socioeconomic status (SES) of an area is known to have a strong influence on the lives of those who reside within it. Extensive evidence has indicated that economic inequality negatively impacts a variety of social outcomes and institutions (Holland et al. 2009). For example, in Mexico, villages with an unequal economic structure were much more likely to have poorly managed forests (Holland et al. 2009). These quality of life differences have lead ecologists to wonder how the SES of an area impacts biodiversity. While there have been few studies analyzing the relationship between SES and biodiversity, research on similar concepts provides guidance on what we might expect to see. One concept known as the "Luxury Effect" states that wealth can allow people to live in areas with higher biodiversity thanks to access to things such as private gardens (Hope et al. 2003). The "Hierarchy of Need" concept mentions that residents with a lower SES often struggle to produce diverse edible and medicinal plants, while those with a higher SES don't face this issue (Kuras et al. 2020).
+
+Mikkelson et. al. (2007) aimed to examine the degree to which socioeconomic factors impact biodiversity loss. One aspect of this study was to test for a correlation between the number of permanent resident bird species experiencing population decline and each state's Gini Ratio of income inequality, which is a value used to estimate economic inequality. The Gini Ratio ranges from 0 (perfect equality) to 1 (perfect inequality). Mikkelson et. al. (2007) used linear regression plots and statistics to better understand this relationship, which we will recreate using R.
+
+When to use Linear Regressions: Linear regressions are used to test the relationship between two or more continuous variables of interest. In the case of our analysis, the two variables we are interested in are the number of declining permanent resident bird species and the Gini Ratio of income inequality. 
+
+[Mikkelson, G. M., Gonzalez, A., & Peterson, G. D. (2007). Economic inequality predicts biodiversity loss. PloS one, 2(5), e444.](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0000444)
+
+<br/>
+<br/>
+
+
+## Loading Packages and Data 
+
+First, let's load any libraries we will be using (here just tidyverse) and our dataset. 
+
+```{r load packages}
+
+# load the tidyverse package
+library(tidyverse) #Loads the tidyverse package into R's brain. This pacakge contains other packages that allow us to do data wrangling, transformation, and visualization.
+
+```
+
+```{r import data}
+
+bird <- read.csv(url("https://bio.libretexts.org/@api/deki/files/65130/GINI_BIRDS.csv?origin=mt-web"), sep = ',', head = TRUE)
+#This loads in the dataset and stores it in R's "brain," that way we can use the data within it for analyses and figure making.
+
+tibble(bird) # Visualizes the dataset in a table.
+
+```
+
+<br/>
+
+
+## Creating a Regression Plot
+
+Now, let's *visualize* the relationship using a linear regression. Afterwards, we will have to test whether this relationship is statistically significant. 
+
+In the code chunk provided below, write ggplot code to plot the Gini Ratio of income inequality against the declining bird species that also shows a line depicting the linear regression
+```{r eval=FALSE, include=FALSE}
+
+ggplot(data = bird, aes(x = GiniRatio_1969, y = DecResBird_1966)) +
+  geom_point() + #adding points to my plot.
+  geom_smooth( method = "lm" ) # Creates a regression line for a linear model.
+
+```
+
+<br/>
+
+Before we move on, we should take a look at our plot and see whether it is likely to fit the assumptions of a linear model. Is the relationship linear? Are the data homoscedastic (e.g., the variance of points stays similar across values of the y-axis). Learn more about the assumptions of linear models on [Wikipedia](https://en.wikipedia.org/wiki/Linear_regression). 
+
+<br/>
+
+
+## Running a Linear Model
+
+The code below generates some key linear regression statistics, including the p-value, the slope of the relationship, and the r-squared value. The p-value tells us how likely it is that our data occurred due to chance. A higher p-value indicates a stronger probability that the results we see are due to chance. Most fields used a cut-off off p-value of 0.05 to consider a relationship statistically significant. Anything less than 0.05 means that the probability of our results occurring by chance is less than 5%. The R-squared value is tells us how much of the dependent variable can be explained by the independent variable. For example, if we were to calculate an r2 value of .75, that would mean that 75% of the variance in the declining resident bird population can be explained by the Gini Ratio. Lastly, the slope tells us how fast the dependent variable increases or decreases with every one unit change in the independent variable. 
+
+To find the linear regression statistics, we use the formula:
+`r new_data_frame = lm( y-axis_Variable ~ x-axis_Variable, data = old_data_frame)`
+
+<br/>
+
+We then have to display the summary statistics, which we do by using the code:
+`r summary(new_data_frame)`
+
+<br/>
+
+Now let's try it our with our data! 
+
+```{r}
+
+bird_mod <- lm(DecResBird_1966 ~ GiniRatio_1969, data = bird) # creates a new data frame called bird mod, which calculates  linear model statistics using the data in DecResBird_1966 and GiniRatio_1969.
+
+summary(bird_mod) # shows us a summary of the statistics present in bird mod.
+
+```
+
+<br/>
+
+## Interpreting a Linear Model
+
+Now we have our linear regression statistics, what can we interpret from them?
+
+First, let's take a look at our p-value. Our p-value is 0.05266, which presents an interesting dilemma. As mentioned previously, many scientists infer that there is statistically significant correlation between two variables if the p-value is less than 0.05. This cut-off is somewhat arbitrary, however, and has received a lot of pushback from some scientists. Our p-value means that there was a 5.266 percent likelihood of our results occurring by chance. So while we cannot claim our results are statistically significant, it does seem like there might be a pattern here.
+
+Next, let's look at our r-squared value. We can determine that there is a weak positive correlation between the Gini Ratio and declining resident bird species given our low r2 value of 0.08454. This value suggests that only 8.5% of the difference in %declining resident bird species across states can be explained by the Gini Ratio.
+
+The last value we want to look at is our Estimate, or our slope. Here, our Estimate is 22.578. This represents the slope between the Gini Ratio and the % of declining resident bird species. In other words, for every increase of 1 in the Gini Ratio, the percent of resident bird species showing population decline increases by 22.58%. Because the Gini Ratio ranges from 0 to 1, this suggests that a state with perfect inequality (Ratio = 1) has 22.58% more of its resident bird species declining than a state with perfect equality (Ratio = 0). 
+
+We can also use this table to write out the linear model that describes the relationship we are observing, using the form y = mx + b where:
+
+  - y is our dependent variable (declining resident bird species)   
+  - x is our independent variable (Gini Ratio)   
+  - m is our slope    
+  - b is out y-intercept
+ 
+
+In the R outline, the column Estimate gives us our slope and y-intercept. The y-intercept is the estimate for "intercept", while the slope is the Estimate for "GiniRatio_1969". 
+
+### What would the equation for your resulting linear model be?
+Write your answer here: 
+
+<br/>
+
+
+```{r, echo=FALSE}
+
+# Kirtland's Warbler Photo
+url <- "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Dendroica_kirtlandii_-Michigan%2C_USA_-male-8_%285%29.jpg/800px-Dendroica_kirtlandii_-Michigan%2C_USA_-male-8_%285%29.jpg?20120124132708"
+
+```
+
+<center><img src="`r url`" width="300"></center>
+
+A male Kirtland's Warbler in a jack pine forest in Michigan, USA by snowmanradio is licensed under CC BY 2.0. Kirkland's Warblers are near threatened species that are dependent on jack pine habitat.
+
+<br/>
+
+---
+
+## References:   
+  - Holland, T. G., Peterson, G. D., & Gonzalez, A. (2009). A cross-national analysis of how  economic inequality predicts Biodiversity loss. Conservation Biology, 23(5), 1304–1313. https://doi.org/10.1111/j.1523-1739.2009.01207.x
+  - Hope, D., Gries, C., Zhu, W., Fagan, W. F., Redman, C. L., Grimm, N. B., Nelson, A. L., Martin, C., & Kinzig, A. (2003). Socioeconomics Drive Urban Plant Diversity. Proceedings of the National Academy of Sciences, 100(15), 8788–8792. https://doi.org/10.1073/pnas.1537557100
+  - Kuras, E. R., Warren, P. S., Zinda, J. A., Aronson, M. F. J., Cilliers, S., Goddard, M. A., Nilon, C. H., & Winkler, R. (2020). Urban socioeconomic inequality and biodiversity often converge, but not always: A global meta-analysis. Landscape and Urban Planning, 198. https://doi.org/10.1016/j.landurbplan.2020.103799
+  - Mikkelson, G. M., Gonzalez, A., & Peterson, G. D. (2007). Economic inequality predicts biodiversity loss. PloS one, 2(5), e444.
+  
+<br/>
+
+This R walkthrough was written by the authors from the text [Ecology for All!](https://bio.libretexts.org/Courses/Gettysburg_College/01%3A_Ecology_for_All) and adapted by [Colleen Bove](https://colleenbove.science/) for use in her Ecology course at Ursinus College.
